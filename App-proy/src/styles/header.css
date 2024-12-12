@@ -1,0 +1,76 @@
+/* Estilos generales para el header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0; /* Asegura que se extienda hasta el borde derecho */
+    width: 100vw; /* Asegura que ocupe todo el ancho de la pantalla */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #333;
+    color: #fff;
+    z-index: 1000;
+    box-sizing: border-box; /* Evita que el padding desplace el ancho del header */
+    margin: 0; /* Elimina cualquier margen externo */
+  }
+  
+  /* Espacio adicional en el contenido para evitar que quede oculto bajo el header */
+  .content {
+    padding-top: 80px;
+  }
+  
+  .logo h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    margin: 0;
+  }
+  
+  .nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .nav a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .nav a:hover {
+    color: #ffcc00;
+  }
+  
+  .reservation-btn {
+    padding: 0.5rem 1rem;
+    background-color: #ffcc00;
+    color: #333;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .reservation-btn:hover {
+    background-color: #e6b800;
+    color: #fff;
+  }
+  
+  /* Responsividad para dispositivos móviles */
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .nav {
+      flex-direction: column;
+      width: 100%;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+  }
+  
