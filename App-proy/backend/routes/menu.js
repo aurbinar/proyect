@@ -3,7 +3,7 @@ import Menu from '../models/menu.js';
 
 const router = Router();
 
-export const updateMenu = router.put('/menu', async (req, res) => {
+router.put('/updateMenu', async (req, res) => {
   const { primeros, segundos, postres, precio } = req.body;
 
   try {
@@ -24,7 +24,7 @@ export const updateMenu = router.put('/menu', async (req, res) => {
 
 
 //Obtener el menú del día
-export const getMenu = router.get('/menu', async (req, res) => {
+router.get('/getMenu', async (req, res) => {
   const today = new Date().toISOString().split('T')[0];
   try {
     const menu = await Menu.findOne({ date: today });
@@ -37,3 +37,4 @@ export const getMenu = router.get('/menu', async (req, res) => {
   }
 });
 
+export default router;

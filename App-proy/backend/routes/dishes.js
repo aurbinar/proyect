@@ -2,7 +2,7 @@ import { Router } from 'express';
 import Dish from "../models/dish.js"
 const router = Router();
 
-export const postDishes = router.post('/dishes', async (req, res) => {
+router.post('/postDishes', async (req, res) => {
     const { category, name, description, price, allergens, image } = req.body;
 
   try {
@@ -14,7 +14,7 @@ export const postDishes = router.post('/dishes', async (req, res) => {
       }
     });
 
-export const getDishes = router.get('/dishes', async (req, res) => {
+router.get('/getDishes', async (req, res) => {
   try {
     const dishes = await Dish.find();
     res.status(200).json(dishes);
@@ -22,3 +22,5 @@ export const getDishes = router.get('/dishes', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+export default router;
