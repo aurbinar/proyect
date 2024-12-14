@@ -19,8 +19,8 @@ connect(process.env.MONGODB_URI).then(() => console.log("Conectado a MongoDB"))
   .catch((err) => console.error("Error de conexión a MongoDB:", err));
 
 // Rutas
-app.use('/', dishesRouter);
-app.use('/', menuRoutes);
+app.use('/api', dishesRouter);
+app.use('/api', menuRoutes);
 app.use('/auth', authRoutes);
 app.use('/protected', protectedRoutes); 
 
