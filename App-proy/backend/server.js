@@ -14,9 +14,10 @@ const app = express();
 // Middleware
 app.use(express.json());
 
-// Conectar a MongoDB
-connect(process.env.MONGODB_URI).then(() => console.log("Conectado a MongoDB"))
+if (process.env.NODE_ENV !== 'test') {
+  connect(process.env.MONGODB_URI).then(() => console.log("Conectado a MongoDB"))
   .catch((err) => console.error("Error de conexión a MongoDB:", err));
+}
 
 // Rutas
 app.use('/api', dishesRouter);
@@ -24,7 +25,7 @@ app.use('/api', menuRoutes);
 app.use('/auth', authRoutes);
 app.use('/protected', protectedRoutes); 
 
-
-// Escuchar en el puerto definido en .env
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor escuchando en el puerto ${PORT}`));
+
+export default app;

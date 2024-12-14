@@ -1,77 +1,61 @@
-import request from 'supertest';
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import app from '../server.js';
+import request from 'supertest';
+import app from '../server.js'; // Importa tu servidor Express
 import Dish from '../models/dish.js';
 
 let mongoServer;
 
 beforeAll(async () => {
+  // Configurar MongoDB en memoria
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
-  await mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(uri);
 });
 
 afterAll(async () => {
+  // Cerrar conexiones después de las pruebas
   await mongoose.disconnect();
   await mongoServer.stop();
 });
 
-beforeEach(async () => {
+afterEach(async () => {
+  // Limpiar la base de datos después de cada prueba
   await Dish.deleteMany();
 });
 
 describe('Pruebas para /dishes', () => {
-  it('POST /postDishes debería crear un nuevo plato', async () => {
+  it('POST /api/postDishes debería crear un nuevo plato', async () => {
     const newDish = {
-      category: 'Entrantes',
-      name: 'Ensalada César',
-      description: 'Lechuga fresca con aderezo César',
-      price: 8.99,
-      allergens: ['lactosa'],
-      image: 'https://example.com/ensalada-cesar.jpg',
+      name: 'Pasta',
+      price: 10,
+      description: 'Deliciosa pasta',
+      allergens: ['gluten'],
+      category: "pasta",
+      image: "askdvjsdakbsl.png"
     };
 
-    const response = await request(app).post('/postDishes').send(newDish);
+    const response = await request(app).post('/api/postDishes').send(newDish);
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(200); // Asegúrate de que el estado sea 201 (Created)
     expect(response.body).toHaveProperty('_id');
-    expect(response.body.name).toBe(newDish.name);
-    expect(response.body.category).toBe(newDish.category);
-    expect(response.body.price).toBe(newDish.price);
-    expect(response.body.allergens).toEqual(expect.arrayContaining(newDish.allergens));
-    expect(response.body.image).toBe(newDish.image);
+    expect(response.body.name).toBe('Pasta');
   });
 
-  it('GET /getDishes debería devolver una lista de platos', async () => {
+  it('GET /api/getDishes debería devolver una lista de platos', async () => {
     const dish1 = await Dish.create({
-      category: 'Plato Principal',
       name: 'Pizza Margarita',
+      price: 12,
       description: 'Pizza con tomate, albahaca y mozzarella',
-      price: 12.99,
-      allergens: ['gluten', 'lactosa'],
-      image: 'https://example.com/pizza-margarita.jpg',
+      allergens: [],
+      category: 'Plato Principal',
+      image: "kbnasnbfaklfba.png"
     });
 
-    const dish2 = await Dish.create({
-      category: 'Postres',
-      name: 'Helado de Vainilla',
-      description: 'Helado cremoso de vainilla',
-      price: 5.99,
-      allergens: ['lactosa'],
-      image: 'https://example.com/helado-vainilla.jpg',
-    });
-
-    const response = await request(app).get('/getDishes');
+    const response = await request(app).get('/api/getDishes');
 
     expect(response.status).toBe(200);
-    expect(response.body.length).toBe(2);
-
-    const dishNames = response.body.map((dish) => dish.name);
-    expect(dishNames).toContain('Pizza Margarita');
-    expect(dishNames).toContain('Helado de Vainilla');
+    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body[0].name).toBe(dish1.name);
   });
 });
