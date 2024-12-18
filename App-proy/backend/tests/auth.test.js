@@ -6,7 +6,7 @@ import User from "../models/usuario.js";
 
 let mongoServer;
 
-jest.setTimeout(30000); // Aumentar timeout
+jest.setTimeout(10000); // Aumentar timeout
 
 
   // Limpiar base de datos antes de cada prueba
