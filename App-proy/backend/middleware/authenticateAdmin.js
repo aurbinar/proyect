@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export const authenticateUser = (req, res, next) => {
+export const authenticateAdmin = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1]; // Obtén el token del header
   
   if (!token) {

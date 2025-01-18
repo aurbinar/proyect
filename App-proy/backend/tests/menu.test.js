@@ -28,6 +28,7 @@ describe('Pruebas para las rutas de /menu', () => {
       const menuData = {
         primeros: ['Ensalada', 'Sopa'],
         segundos: ['Pollo', 'Pescado'],
+        especial: ['Rabo de Toro', 'Chipirones'],
         postres: ['Flan', 'Helado'],
         date: new Date().toISOString().split('T')[0],
       };
@@ -37,6 +38,7 @@ describe('Pruebas para las rutas de /menu', () => {
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('primeros', menuData.primeros);
       expect(response.body).toHaveProperty('segundos', menuData.segundos);
+      expect(response.body).toHaveProperty('especial', menuData.especial);
       expect(response.body).toHaveProperty('postres', menuData.postres);
       expect(response.body).toHaveProperty('date', menuData.date);
     });
@@ -47,6 +49,7 @@ describe('Pruebas para las rutas de /menu', () => {
       const existingMenu = new Menu({
         primeros: ['Arroz'],
         segundos: ['Carne'],
+        especial: ['Caviar'],
         postres: ['Fruta'],
         date: today,
       });
@@ -56,6 +59,7 @@ describe('Pruebas para las rutas de /menu', () => {
       const updatedMenuData = {
         primeros: ['Ensalada', 'Sopa'],
         segundos: ['Pollo', 'Pescado'],
+        especial: ['Rabo de Toro', 'Chipirones'],
         postres: ['Flan', 'Helado'],
         date: today,
       };
@@ -65,6 +69,7 @@ describe('Pruebas para las rutas de /menu', () => {
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('primeros', updatedMenuData.primeros);
       expect(response.body).toHaveProperty('segundos', updatedMenuData.segundos);
+      expect(response.body).toHaveProperty('especial', updatedMenuData.especial);
       expect(response.body).toHaveProperty('postres', updatedMenuData.postres);
       expect(response.body).toHaveProperty('date', today);
     });
@@ -77,6 +82,7 @@ describe('Pruebas para las rutas de /menu', () => {
       const menu = new Menu({
         primeros: ['Ensalada'],
         segundos: ['Pollo'],
+        especial: ['Ragut'],
         postres: ['Flan'],
         date: today,
       });
@@ -88,6 +94,7 @@ describe('Pruebas para las rutas de /menu', () => {
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('primeros', menu.primeros);
       expect(response.body).toHaveProperty('segundos', menu.segundos);
+      expect(response.body).toHaveProperty('especial', menu.especial);
       expect(response.body).toHaveProperty('postres', menu.postres);
       expect(response.body).toHaveProperty('date', today);
     });

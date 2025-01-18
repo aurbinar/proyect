@@ -11,8 +11,8 @@ const reservationSchema = new mongoose.Schema({
     required: true,
   },
   shift: {
-    type: String, // Turno (ej.: "1:00-2:30" o "2:30-4:00")
-    enum: ['1:00-2:30', '2:30-4:00'],
+    type: String, // Turno 
+    enum: ['12:30-13:45', '13:45-15:00', '15:00-16:15'],
     required: true,
   },
   people: {

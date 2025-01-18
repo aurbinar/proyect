@@ -1,9 +1,11 @@
 import express from 'express';
 import Reservation from '../models/reservation.js';
 import { authMiddleware } from '../middleware/auth.js'; // Asegura que el usuario está logeado
-import { sendEmail } from '../utils/sendEmail.js'
+import  sendEmail  from '../utils/sendEmail.js'
+import { authenticateAdmin } from '../middleware/authenticateAdmin.js';
 
 const router = express.Router();
+const MAX_RESERVATIONS_PER_SHIFT = 60;
 
 // Crear una reserva
 router.post('/create', authMiddleware, async (req, res) => {
@@ -87,7 +89,7 @@ router.delete('/cancel/:id', authMiddleware, async (req, res) => {
     }
 });
 
-router.get('/admin/reservations', authMiddleware, adminMiddleware, async (req, res) => {
+router.get('/admin/reservations', authMiddleware, authenticateAdmin, async (req, res) => {
     try {
       const reservations = await Reservation.find({ status: 'pending' }).populate('user', 'name email');
       res.status(200).json(reservations);
@@ -96,7 +98,7 @@ router.get('/admin/reservations', authMiddleware, adminMiddleware, async (req, r
     }
 });
 
-router.put('/admin/reservations/:id', authMiddleware, adminMiddleware, async (req, res) => {
+router.put('/admin/reservations/:id', authMiddleware, authenticateAdmin, async (req, res) => {
     const { status } = req.body;
   
     if (!['confirmed', 'cancelled'].includes(status)) {

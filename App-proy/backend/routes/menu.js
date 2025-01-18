@@ -4,7 +4,7 @@ import Menu from '../models/menu.js';
 const router = Router();
 
 router.put('/updateMenu', async (req, res) => {
-  const { primeros, segundos, postres, precio } = req.body;
+  const { primeros, segundos, especial, postres, precio } = req.body;
 
   try {
     const today = new Date().toISOString().split('T')[0]; // Fecha actual sin hora
@@ -12,7 +12,7 @@ router.put('/updateMenu', async (req, res) => {
     // Encuentra el menú del día basado en la fecha y actualiza sus datos
     const menu = await Menu.findOneAndUpdate(
       { date: today }, // Busca el menú por la fecha actual
-      { primeros, segundos, postres, precio, date: today }, // Actualiza los valores
+      { primeros, segundos, especial, postres, precio, date: today }, // Actualiza los valores
       { new: true, upsert: true } // Crea un nuevo documento si no existe
     );
 

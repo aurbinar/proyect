@@ -11,6 +11,10 @@ const menuSchema = new mongoose.Schema(
             type: [String],
             required: true,
         },
+        especial:{
+            type: [String],
+            required: true,
+        },
         postres:{
             type: [String],
             required: true,
