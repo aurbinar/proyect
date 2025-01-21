@@ -9,7 +9,9 @@ export const register = async (req, res) => {
     if (error) {
         return res.status(400).json({ message: error.details[0].message });
     }
+
     const { name, email, password } = req.body;
+
     try {
         // Verifica si el usuario ya existe
         const userExists = await User.findOne({ email });
@@ -42,7 +44,6 @@ export const login = async (req, res) => {
     if (error) {
         return res.status(400).json({ message: error.details[0].message });
     }
-    
     
     const { email, password } = req.body;
     
@@ -78,5 +79,75 @@ export const login = async (req, res) => {
     } catch (error) {
         console.error('Error en login:', error);
         res.status(500).json({ message: 'Error al iniciar sesión', error });
+    }
+};
+
+// Ruta para solicitar el restablecimiento de contraseña
+export const recover = async (req, res) => {
+
+    const { error } = recoverSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({ message: error.details[0].message });
+    }
+
+    const { email } = req.body;
+  
+    try {
+      // Verificar si el usuario existe
+      const user = await User.findOne({ email });
+      if (!user) return res.status(404).json({ message: 'Correo no registrado' });
+  
+      // Generar un token JWT con tiempo de expiración
+      const resetToken = jwt.sign(
+        { id: user._id, email: user.email }, // Payload
+        process.env.JWT_SECRET, // Clave secreta
+        { expiresIn: '1h' } // Expira en 1 hora
+      );
+  
+      // Crear enlace de restablecimiento
+      const resetLink = `http://localhost:3000/auth/reset/${resetToken}`;
+  
+      // Enviar correo al usuario
+      await sendEmail(
+            user.email,
+            'Recuperación de contraseña',
+            `Haga clic en el siguiente enlace para restablecer su contraseña: ${resetLink}`
+        );
+  
+      res.status(200).json({ message: 'Correo enviado con instrucciones para restablecer la contraseña' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al enviar el correo', error: error.message });
+    }
+};
+
+// Ruta para restablecer la contraseña
+export const resetPass = async (req, res) => {
+
+    const { error } = resetSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({ message: error.details[0].message });
+    }
+
+    const { token } = req.params;
+    const { newPassword } = req.body;
+
+    try {
+        // Verificar el token JWT
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        // Buscar al usuario en la base de datos
+        const user = await User.findById(decoded.id);
+        if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+        // Actualizar la contraseña
+        user.password = newPassword; // Se encripta automáticamente si tienes un hook en el esquema
+        await user.save();
+
+        res.status(200).json({ message: 'Contraseña restablecida exitosamente' });
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+        return res.status(400).json({ message: 'El token ha expirado' });
+        }
+        res.status(500).json({ message: 'Error al restablecer la contraseña', error: error.message });
     }
 };

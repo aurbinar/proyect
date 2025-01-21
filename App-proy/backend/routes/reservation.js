@@ -2,7 +2,6 @@ import express from 'express';
 import Reservation from '../models/reservation.js';
 import { authMiddleware } from '../middleware/auth.js'; // Asegura que el usuario está logeado
 import  sendEmail  from '../utils/sendEmail.js'
-import { authenticateAdmin } from '../middleware/authenticateAdmin.js';
 
 const router = express.Router();
 const MAX_RESERVATIONS_PER_SHIFT = 60;
@@ -86,38 +85,6 @@ router.delete('/cancel/:id', authMiddleware, async (req, res) => {
       res.status(200).json({ message: 'Reserva cancelada con éxito.', reservation });
     } catch (error) {
       res.status(500).json({ message: 'Error al cancelar la reserva.', error });
-    }
-});
-
-router.get('/admin/reservations', authMiddleware, authenticateAdmin, async (req, res) => {
-    try {
-      const reservations = await Reservation.find({ status: 'pending' }).populate('user', 'name email');
-      res.status(200).json(reservations);
-    } catch (error) {
-      res.status(500).json({ message: 'Error al obtener las reservas.', error });
-    }
-});
-
-router.put('/admin/reservations/:id', authMiddleware, authenticateAdmin, async (req, res) => {
-    const { status } = req.body;
-  
-    if (!['confirmed', 'cancelled'].includes(status)) {
-      return res.status(400).json({ message: 'Estado inválido.' });
-    }
-  
-    try {
-      const reservation = await Reservation.findById(req.params.id);
-  
-      if (!reservation) {
-        return res.status(404).json({ message: 'Reserva no encontrada.' });
-      }
-  
-      reservation.status = status;
-      await reservation.save();
-  
-      res.status(200).json({ message: 'Estado de la reserva actualizado.', reservation });
-    } catch (error) {
-      res.status(500).json({ message: 'Error al actualizar el estado de la reserva.', error });
     }
 });
 
