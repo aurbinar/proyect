@@ -1,6 +1,7 @@
 import User from '../models/usuario.js';
 import jwt from 'jsonwebtoken';
-import {registerSchema, loginSchema} from "../schemas/validation.js";
+import sendEmail from '../utils/sendEmail.js';
+import {registerSchema, loginSchema, recoverSchema, resetSchema} from "../schemas/validation.js";
 
 
 // Controlador para registro
@@ -105,7 +106,7 @@ export const recover = async (req, res) => {
       );
   
       // Crear enlace de restablecimiento
-      const resetLink = `http://localhost:3000/auth/reset/${resetToken}`;
+      const resetLink = `http://localhost:5000/auth/reset/${resetToken}`;
   
       // Enviar correo al usuario
       await sendEmail(
@@ -129,7 +130,7 @@ export const resetPass = async (req, res) => {
     }
 
     const { token } = req.params;
-    const { newPassword } = req.body;
+    const { password } = req.body;
 
     try {
         // Verificar el token JWT
@@ -140,7 +141,7 @@ export const resetPass = async (req, res) => {
         if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
 
         // Actualizar la contraseña
-        user.password = newPassword; // Se encripta automáticamente si tienes un hook en el esquema
+        user.password = password;
         await user.save();
 
         res.status(200).json({ message: 'Contraseña restablecida exitosamente' });

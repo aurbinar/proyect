@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import Menu from '../models/menu.js';
+import { authenticateAdmin } from '../middleware/authenticateAdmin.js';
 
 const router = Router();
 
-router.put('/updateMenu', async (req, res) => {
+router.put('/updateMenu', authenticateAdmin, async (req, res) => {
   const { primeros, segundos, especial, postres, precio } = req.body;
 
   try {

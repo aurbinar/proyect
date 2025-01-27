@@ -23,16 +23,23 @@ const userSchema = new mongoose.Schema({
       enum: ['customer', 'admin'], // Define roles si es necesario
       default: 'customer',
     },
+    phone: { 
+      type: String,
+      unique: true, 
+    },
   }, {
     timestamps: true, // Añade createdAt y updatedAt automáticamente
   });
 
   userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
-    console.log('Encriptando contraseña:', this.password); // <-- Agrega esto para verificar
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
+    try{
+      const salt = await bcrypt.genSalt(10);
+      this.password = await bcrypt.hash(this.password, salt);
+      next();
+    }catch(error){
+      next(error);
+    }
   });
   
   // Método para verificar la contraseña

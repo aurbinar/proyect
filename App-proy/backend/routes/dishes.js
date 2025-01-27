@@ -1,18 +1,19 @@
 import { Router } from 'express';
 import Dish from "../models/dish.js"
+import { authenticateAdmin } from '../middleware/authenticateAdmin.js';
 const router = Router();
 
-router.post('/postDishes', async (req, res) => {
+router.post('/postDishes', authenticateAdmin, async (req, res) => {
     const { category, name, description, price, allergens, image } = req.body;
 
   try {
-        const newDish = new Dish(req.body);
-        await newDish.save();
-        res.status(200).json(newDish);
-      } catch (err) {
-        res.status(400).json({ message: err.message });
-      }
-    });
+      const newDish = new Dish(req.body);
+      await newDish.save();
+      res.status(200).json(newDish);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+  });
 
 router.get('/getDishes', async (req, res) => {
   try {

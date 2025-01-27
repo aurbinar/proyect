@@ -18,8 +18,8 @@ const reservationSchema = new mongoose.Schema({
   people: {
     type: Number, // Número de personas
     required: true,
-    min: 1,
-    max: 20, // Puedes ajustar este límite según la capacidad del restaurante
+    min: 2,
+    max: 8, // Puedes ajustar este límite según la capacidad del restaurante
   },
   status: {
     type: String, // Estado de la reserva

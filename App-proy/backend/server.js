@@ -7,6 +7,7 @@ import menuRoutes from './routes/menu.js';
 import authRoutes from './routes/auth.js';
 import protectedRoutes from './routes/protected.js';
 import reservationRoutes from './routes/reservation.js';
+import profileRouter from './routes/profile.js'
 
 dotenv.config();
 
@@ -26,7 +27,7 @@ app.use('/api', menuRoutes);
 app.use('/api/reservations', reservationRoutes);
 app.use('/auth', authRoutes);
 app.use('/protected', protectedRoutes); 
-
+app.use('/profile', profileRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor escuchando en el puerto ${PORT}`));

@@ -1,6 +1,5 @@
 import express from 'express';
 import { authenticateAdmin } from '../middleware/authenticateAdmin.js';
-import { authorizeAdmin }  from '../middleware/authorizeAdmin.js';
 import  Reservation  from '../models/reservation.js';
 
 const router = express.Router();
@@ -11,11 +10,11 @@ router.get('/profile', authenticateAdmin, (req, res) => {
 });
 
 // Ruta accesible solo para administradores
-router.post('/admin/task', authenticateAdmin, authorizeAdmin, (req, res) => {
+router.post('/admin/task', authenticateAdmin, (req, res) => {
   res.status(200).json({ message: 'Acceso permitido, eres administrador' });
 });
 
-router.get('/admin/reservations', authenticateAdmin, authorizeAdmin, async (req, res) => {
+router.get('/admin/reservations', authenticateAdmin, async (req, res) => {
   try {
     const reservations = await Reservation.find({ status: 'pending' }).populate('user', 'name email');
     res.status(200).json(reservations);
@@ -24,7 +23,7 @@ router.get('/admin/reservations', authenticateAdmin, authorizeAdmin, async (req,
   }
 });
 
-router.put('/admin/reservations/:id', authenticateAdmin, authorizeAdmin, async (req, res) => {
+router.put('/admin/reservations/:id', authenticateAdmin, async (req, res) => {
   const { status } = req.body;
 
   if (!['confirmed', 'cancelled'].includes(status)) {
