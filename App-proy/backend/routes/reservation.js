@@ -1,16 +1,23 @@
 import express from 'express';
 import Reservation from '../models/reservation.js';
 import { authMiddleware } from '../middleware/auth.js';
-import  sendEmail  from '../utils/sendEmail.js'
+import  sendEmail  from '../utils/sendEmail.js';
+import { phoneSchema } from '../schemas/validation.js';
 
 const router = express.Router();
 const MAX_RESERVATIONS_PER_SHIFT = 60;
 
 // Crear una reserva
 router.post('/create', authMiddleware, async (req, res) => {
-  const { date, shift, people } = req.body;
 
-  if (!date || !shift || !people) {
+  const { error } = phoneSchema.validate(req.body.phone);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  const { date, shift, people, phone } = req.body;
+
+  if (!date || !shift || !people || !phone) {
     return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
   }
 
@@ -51,7 +58,8 @@ router.post('/create', authMiddleware, async (req, res) => {
       date: reservationDate,
       shift,
       people,
-      status: "confirmed"
+      status: "confirmed",
+      phone 
     });
 
     await reservation.save();

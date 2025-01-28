@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.5% </span>
+                <span class="strong">18.75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/16</span>
+                <span class='fraction'>3/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.5% </span>
+                <span class="strong">18.75% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/16</span>
+                <span class='fraction'>3/16</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -102,25 +102,19 @@
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
 <a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -128,14 +122,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -143,23 +145,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Router } from 'express';
 import Menu from '../models/menu.js';
+import { authenticateAdmin } from '../middleware/authenticateAdmin.js';
 &nbsp;
 const router = Router();
 &nbsp;
-router.put('/updateMenu', async (req, res) =&gt; {
-  const { primeros, segundos, especial, postres, precio } = req.body;
+router.put('/updateMenu', authenticateAdmin, <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
+  const { primeros, segundos, especial, postres, precio } = <span class="cstat-no" title="statement not covered" >req.body;</span>
 &nbsp;
-  try {
-    const today = new Date().toISOString().split('T')[0]; // Fecha actual sin hora
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const today = <span class="cstat-no" title="statement not covered" >new Date().toISOString().split('T')[0];</span> // Fecha actual sin hora
 &nbsp;
     // Encuentra el menú del día basado en la fecha y actualiza sus datos
-    const menu = await Menu.findOneAndUpdate(
+    const menu = <span class="cstat-no" title="statement not covered" >await Menu.findOneAndUpdate(</span>
       { date: today }, // Busca el menú por la fecha actual
       { primeros, segundos, especial, postres, precio, date: today }, // Actualiza los valores
       { new: true, upsert: true } // Crea un nuevo documento si no existe
     );
 &nbsp;
-    res.status(201).json(menu);
+<span class="cstat-no" title="statement not covered" >    res.status(201).json(menu);</span>
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    res.status(500).json({ message: 'Error al actualizar el menú del día', error });</span>
   }
@@ -167,14 +170,14 @@ router.put('/updateMenu', async (req, res) =&gt; {
 &nbsp;
 &nbsp;
 //Obtener el menú del día
-router.get('/getMenu', async (req, res) =&gt; {
-  const today = new Date().toISOString().split('T')[0];
-  try {
-    const menu = await Menu.findOne({ date: today });
-    if (!menu) {
-      return res.status(404).json({ message: 'No hay menú para hoy' });
+router.get('/getMenu', <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
+  const today = <span class="cstat-no" title="statement not covered" >new Date().toISOString().split('T')[0];</span>
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const menu = <span class="cstat-no" title="statement not covered" >await Menu.findOne({ date: today });</span>
+<span class="cstat-no" title="statement not covered" >    if (!menu) {</span>
+<span class="cstat-no" title="statement not covered" >      return res.status(404).json({ message: 'No hay menú para hoy' });</span>
     }
-    res.status(200).json(menu);
+<span class="cstat-no" title="statement not covered" >    res.status(200).json(menu);</span>
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    res.status(500).json({ message: 'Error al obtener el menú del día', error });</span>
   }
@@ -187,7 +190,7 @@ export default router;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-01-22T18:54:39.908Z
+                at 2025-01-28T16:46:21.909Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

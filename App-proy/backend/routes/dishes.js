@@ -24,4 +24,38 @@ router.get('/getDishes', async (req, res) => {
   }
 });
 
+// Ruta para editar un plato existente
+router.put('/editDish/:id', authenticateAdmin, async (req, res) => {
+  const { id } = req.params; 
+  const updates = req.body; 
+
+  try {
+    // Buscar el plato por su ID y actualizarlo
+    const updatedDish = await Dish.findByIdAndUpdate(id, updates, { new: true });
+
+    if (!updatedDish) {
+      return res.status(404).json({ message: 'Plato no encontrado' });
+    }
+
+    res.status(200).json({ message: 'Plato actualizado con éxito', dish: updatedDish });
+  } catch (err) {
+    res.status(500).json({ message: 'Error al actualizar el plato', error: err.message });
+  }
+});
+
+// Eliminar un plato
+router.delete('/deleteDish/:id', authenticateAdmin, async (req, res) => {
+  try {
+    const dish = await Dish.findByIdAndDelete(req.params.id);
+
+    if (!dish) {
+      return res.status(404).json({ message: 'Plato no encontrado.' });
+    }
+
+    res.status(200).json({ message: 'Plato eliminado correctamente.', dish });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al eliminar el plato.', error });
+  }
+});
+
 export default router;

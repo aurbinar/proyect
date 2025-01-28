@@ -10,11 +10,10 @@ beforeAll(async () => {
   const user = await User.create({
     name: 'Test User',
     email: 'testuser@example.com',
-    password: 'password123',
-    role: 'customer',
+    password: 'password123'
   });
 
-  const res = await request(app).post('/api/auth/login').send({
+  const res = await request(app).post('/auth/login').send({
     email: 'testuser@example.com',
     password: 'password123',
   });
@@ -32,11 +31,11 @@ describe('Reservation API Tests', () => {
   test('Should create a new reservation', async () => {
     const res = await request(app)
     
-      .post('/api/reservations')
+      .post('/api/reservations/create')
       .set('Authorization', `Bearer ${token}`)
       .send({
         date: '2025-02-01',
-        shift: '1',
+        shift: '12:30-13:45',
         people: 4,
       });
 
@@ -46,7 +45,7 @@ describe('Reservation API Tests', () => {
 
   test('Should get reservations for the logged-in user', async () => {
     const res = await request(app)
-      .get('/api/reservations/user')
+      .get('/api/reservations/history')
       .set('Authorization', `Bearer ${token}`);
 
     expect(res.statusCode).toBe(200);
@@ -55,7 +54,7 @@ describe('Reservation API Tests', () => {
 
   test('Should not create a reservation with invalid data', async () => {
     const res = await request(app)
-      .post('/api/reservations')
+      .post('/api/reservations/create')
       .set('Authorization', `Bearer ${token}`)
       .send({
         date: '2025-02-01',
@@ -69,7 +68,7 @@ describe('Reservation API Tests', () => {
   test('Should update a reservation', async () => {
     const reservation = await Reservation.create({
       date: '2025-02-01',
-      shift: '1',
+      shift: '13:45-15:00',
       people: 4,
       user: token.id,
     });

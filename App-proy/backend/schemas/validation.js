@@ -19,4 +19,6 @@ const resetSchema = Joi.object({
   password: Joi.string().min(8).required()
 });
 
-export { registerSchema, loginSchema, recoverSchema, resetSchema };
+const phoneSchema = Joi.string().pattern(/^\d{9}$/).trim().required();
+
+export { registerSchema, loginSchema, recoverSchema, resetSchema, phoneSchema };

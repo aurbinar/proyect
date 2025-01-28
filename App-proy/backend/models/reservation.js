@@ -26,6 +26,10 @@ const reservationSchema = new mongoose.Schema({
     enum: ['pending', 'confirmed', 'cancelled'],
     default: 'pending',
   },
+  phone: {
+    type: String,
+    required: true,
+  },
 }, {
   timestamps: true, // Crea campos `createdAt` y `updatedAt`
 });
