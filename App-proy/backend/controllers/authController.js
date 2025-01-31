@@ -52,15 +52,19 @@ export const login = async (req, res) => {
         // Verificar si el usuario existe
         const user = await User.findOne({ email });
         if (!user) {
-        return res.status(404).json({ message: 'Usuario no encontrado' });
+        	return res.status(404).json({ message: 'Usuario no encontrado' });
         }
-    
+
         // Comparar contraseñas
         const isPasswordCorrect = await user.comparePassword(password);
         if (!isPasswordCorrect) {
         return res.status(400).json({ message: 'Contraseña incorrecta' });
         }
-    
+				
+				if(user.isBlocked) {
+					return res.status(400).json({ message: 'Esta cuenta está bloqueada. Ponte en contacto con el administrador'})
+				}
+				
         // Generar token JWT
         const token = jwt.sign(
         { id: user._id, role: user.role }, // Información que irá en el token

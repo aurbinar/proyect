@@ -6,7 +6,7 @@ import User from "../models/usuario.js";
 
 const router = express.Router();
 
-// Obtener todas las reservas (filtro opcional por estado)
+// Obtener todas las reservas
 router.get('/admin/reservations', authenticateAdmin, async (req, res) => {
   const { status } = req.query; // Filtrar por estado si es necesario
 

@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
       type: String,
       unique: true, 
     },
+    isBlocked: {
+      type: Boolean,
+      default: 'false',
+    },
   }, {
     timestamps: true, // Añade createdAt y updatedAt automáticamente
   });
