@@ -1,0 +1,76 @@
+/* Menu.css */
+.menu-container {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+  }
+  
+  .menu-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .menu-section {
+    margin-bottom: 20px;
+  }
+  
+  .menu-section h3 {
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  
+  .menu-section ul {
+    list-style-type: none;
+    font-size: 16px;
+    font-style: initial;
+    padding: 0;
+  }
+  
+  .menu-section ul li {
+    background-color: #f8f9fa;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .menu-section p {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 4px;
+  }
+.menu-section ul li:hover {
+    background-color: #e2e6ea;
+}
+
+.menu-section ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
+.menu-section ul li a:hover {
+    color: #007bff;
+}
+
+.menu-section p {
+    color: #555;
+}
+
+.menu-footer {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #777;
+}
+
+.menu-footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.menu-footer a:hover {
+    text-decoration: underline;
+}

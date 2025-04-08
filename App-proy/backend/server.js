@@ -2,6 +2,7 @@
 import express from 'express';
 import { connect } from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors'; 
 import dishesRouter from './routes/dishes.js';
 import menuRoutes from './routes/menu.js';
 import authRoutes from './routes/auth.js';
@@ -12,6 +13,8 @@ import profileRouter from './routes/profile.js'
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
 
 // Middleware
 app.use(express.json());
