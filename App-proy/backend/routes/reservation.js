@@ -1,6 +1,6 @@
 import express from 'express';
 import Reservation from '../models/reservation.js';
-import { authMiddleware } from '../middleware/auth.js';
+import { authMiddleware, optionalAuth } from '../middleware/auth.js';
 import  sendEmail  from '../utils/sendEmail.js';
 import { phoneSchema } from '../schemas/validation.js';
 
@@ -8,17 +8,21 @@ const router = express.Router();
 const MAX_RESERVATIONS_PER_SHIFT = 60;
 
 // Crear una reserva
-router.post('/create', authMiddleware, async (req, res) => {
+router.post('/create', optionalAuth, async (req, res) => {
 
   const { error } = phoneSchema.validate(req.body.phone);
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
 
-  const { date, shift, people, phone } = req.body;
+  const { date, shift, people, phone, name, email } = req.body;
 
   if (!date || !shift || !people || !phone) {
     return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
+  }
+
+ if (!req.user && (!name || !email)) {
+    return res.status(400).json({ message: 'Nombre y email son obligatorios si no estás registrado.' });
   }
 
   const reservationDate = new Date(date);
@@ -30,17 +34,19 @@ router.post('/create', authMiddleware, async (req, res) => {
 
   try {
     // Comprobar si el usuario ya tiene una reserva en la misma fecha
-    const existingReservation = await Reservation.findOne({
-      user: req.user._id,
-      date: reservationDate,
-    });
-
-    if (existingReservation) {
-      return res.status(400).json({
-        message: 'Ya tienes una reserva activa para esta fecha.',
+    if (req.user) {
+      const existingReservation = await Reservation.findOne({
+        user: req.user._id,
+        date: reservationDate,
       });
+    
+      if (existingReservation) {
+        return res.status(400).json({
+          message: 'Ya tienes una reserva activa para esta fecha.',
+        });
+      }
     }
-
+    
     // Comprobar si el turno ya está lleno
     const existingReservations = await Reservation.find({
         date: reservationDate,
@@ -54,24 +60,29 @@ router.post('/create', authMiddleware, async (req, res) => {
     }
 
     const reservation = new Reservation({
-      user: req.user._id,
+      user: req.user?._id || null,
+      name: req.user?.name || name,
+      email: req.user?.email || email,
+      phone,
       date: reservationDate,
       shift,
       people,
-      status: "confirmed",
-      phone 
+      status: req.user ? "confirmed" : "pending"
     });
-
+  
     await reservation.save();
 
-    // Enviar correo de confirmación
-    const user = req.user;
-    await sendEmail(
-      user.email,
-      'Confirmación de reserva',
-      `Hola ${user.name}, tu reserva para el día ${reservationDate.toLocaleDateString()} en el turno ${shift} ha sido confirmada.`
-    );
+    // Enviar correo si hay email
+    if (reservation.email) {
+      await sendEmail(
+        reservation.email,
+        req.user ? 'Confirmación de reserva' : 'Reserva pendiente',
+        `Hola ${reservation.name || 'cliente'}, tu reserva para el día ${reservationDate.toLocaleDateString()} en el turno ${shift} ha sido ${reservation.status}.`
+      );
+    }
+
     res.status(201).json({ message: 'Reserva creada con éxito.', reservation });
+
   } catch (error) {
     res.status(500).json({ message: 'Error al crear la reserva.', error });
   }

@@ -1,54 +1,8 @@
 /* Home.css */
-.home-container {
-  display: flex;
-  flex-direction: row;  
-  padding: 40px;
-  background-color: #f8f9fa;
-}
-
-.home-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #336699;
-  color: white;
-  padding: 1rem;
-  z-index: 1000;
-}
-
-.home-header h1 {
-  text-align: center;
-  margin: 0;
-}
-
-.home-header nav ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-}
-
-.home-header nav ul li {
-  margin: 0 20px;
-}
-
-.home-header nav ul li a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.home-header nav ul li a:hover {
-  text-decoration: underline;
-}
 
 .intro {
   display: flex;
   flex-direction: column;
-  margin-top: 100px;
-  padding: 1rem;  
 }
 
 .intro h2 {
@@ -57,13 +11,6 @@
 
 .intro p {
   color: #6c757d;
-}
-
-.home-image {
-  width: 100%;
-  max-width: 800px;
-  height: auto;
-  margin-top: 20px;
 }
 
 .services {
@@ -84,23 +31,4 @@
 .services ul li {
   color: #6c757d;
   margin: 10px 0;
-}
-
-footer {
-  background-color: #343a40;
-  color: white;
-  padding: 20px 0;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-}
-
-.logo {
-  max-height: 60px;
-  cursor: pointer;
-}
-
-.logo-container {
-  display: flex;
-  align-items: center;
 }

@@ -156,3 +156,16 @@ export const resetPass = async (req, res) => {
         res.status(500).json({ message: 'Error al restablecer la contraseña', error: error.message });
     }
 };
+
+export const getMe = async (req, res) => {
+    if (!req.user) {
+      return res.status(401).json({ message: 'No autenticado' });
+    }
+  
+    return res.status(200).json({
+        id: req.user._id,
+        name: req.user.name,
+        email: req.user.email,
+        role: req.user.role,
+    });
+  };

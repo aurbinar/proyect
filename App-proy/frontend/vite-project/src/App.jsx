@@ -8,6 +8,7 @@ import RecoverPassword from './routes/Login/recoverPassword.jsx';
 import ResetPassword from './routes/Login/resetPassword.jsx';
 import Menu from './routes/Menu/Menu.jsx';
 import Reservation from './routes/reservations/reservations.jsx';
+import Layout from './components/Layout.jsx';
 
 
 function App() {
@@ -15,11 +16,13 @@ function App() {
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/carta" element={<DishList />} />
+          <Route element={<Layout/>}>
+            <Route path="/" element={<Home />} />
+            <Route path="/carta" element={<DishList />} />
+            <Route path="/menu" element={<Menu />} />
+            <Route path="/reservations" element={<Reservation />} />
+          </Route>
           <Route path="/login" element={<Login />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/reservations" element={<Reservation />} />
           <Route path="/recover" element={<RecoverPassword />} />
           <Route path="/reset/:token" element={<ResetPassword />} />
         </Routes>

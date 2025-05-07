@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth  } from '../../context/authContext';
 import axios from 'axios';
 import './reservations.css';
 
 const Reservation = () => {
   const [date, setDate] = useState('');
   const [shift, setShift] = useState('');
-  const [people, setPeople] = useState(1);
+  const [people, setPeople] = useState(2);
   const [phone, setPhone] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [reservations, setReservations] = useState([]);
+  const { user } = useAuth();
+
+  const token = localStorage.getItem('token');
+  const isLoggedIn = (token);
 
   useEffect(() => {
+    if (!isLoggedIn) return;
     const fetchReservations = async () => {
       try {
-        const token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:5000/api/reservations/history', {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -22,35 +29,44 @@ const Reservation = () => {
         setMessage('Error al obtener las reservas.');
       }
     };
-
     fetchReservations();
-  }, []);
+  }, [token]);
 
   const handleReservation = async (e) => {
     e.preventDefault();
-    console.log(date, shift, people, phone);
     try {
-      const token = localStorage.getItem('token');
+      const data = { date, shift, people, phone };
+      
+
+      if (!isLoggedIn) {
+        data.name = name;
+        data.email = email;
+      }
+      console.log(data)
       const response = await axios.post(
         'http://localhost:5000/api/reservations/create',
-        { date, shift, people, phone },
-        { headers: { Authorization: `Bearer ${token}` } }
+        data,
+        isLoggedIn
+          ? { headers: { Authorization: `Bearer ${token}` } }
+          : undefined
       );
+      
       setMessage('Reserva creada con éxito.');
-      setReservations([...reservations, response.data.reservation]);
+      if (isLoggedIn) {
+        setReservations([...reservations, response.data.reservation, user.name, user.email]);
+      }
     } catch (error) {
-      setMessage(error.response.data.message || 'Error al crear la reserva.');
+      setMessage(error.response?.data?.message || 'Error al crear la reserva.');
     }
   };
 
   const handleCancel = async (id) => {
     try {
-      const token = localStorage.getItem('token');
       await axios.delete(`http://localhost:5000/api/reservations/cancel/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage('Reserva cancelada con éxito.');
-      setReservations(reservations.filter((reservation) => reservation._id !== id));
+      setReservations(reservations.filter((r) => r._id !== id));
     } catch (error) {
       setMessage('Error al cancelar la reserva.');
     }
@@ -60,6 +76,28 @@ const Reservation = () => {
     <div className="reservation-container">
       <h2>Reservar una Mesa</h2>
       <form onSubmit={handleReservation}>
+      {!isLoggedIn && (
+          <>
+            <label>
+              Nombre:
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </label>
+            <label>
+              Email:
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </label>
+          </>
+        )}
         <label>
           Fecha:
           <input
@@ -71,10 +109,11 @@ const Reservation = () => {
         </label>
         <label>
           Turno:
-          <select value={shift} onChange={(e) => setShift(e.target.value)} required>
-            <option value="1">12</option>
-            <option value="2">13</option>
-            <option value="3">14</option>
+          <select  value={shift} onChange={(e) => setShift(e.target.value)} required>
+          <option value="" hidden>Selecciona un turno</option>
+            <option value="1">12:00</option>
+            <option value="2">13:00</option>
+            <option value="3">14:00</option>
           </select>
         </label>
         <label>
@@ -82,8 +121,8 @@ const Reservation = () => {
           <input
             type="number"
             value={people}
-            onChange={(e) => setPeople(e.target.value)}
-            min="1"
+            onChange={(e) => setPeople(Number(e.target.value))}
+            min="2"
             required
           />
         </label>
@@ -96,18 +135,27 @@ const Reservation = () => {
             required
           />
         </label>
+
+        
+
         <button type="submit">Reservar</button>
       </form>
+
       {message && <p>{message}</p>}
-      <h3>Mis Reservas</h3>
-      <ul>
-        {reservations.map((reservation) => (
-          <li key={reservation._id}>
-            {reservation.date} - {reservation.shift} - {reservation.people} personas - {reservation.status}
-            <button onClick={() => handleCancel(reservation._id)}>Cancelar</button>
-          </li>
-        ))}
-      </ul>
+
+      {isLoggedIn && (
+        <>
+          <h3>Mis Reservas</h3>
+          <ul>
+            {reservations.map((reservation) => (
+              <li key={reservation._id}>
+                {new Date(reservation.date).toLocaleDateString()} - Turno {reservation.shift} - {reservation.people} personas - {reservation.status}
+                <button onClick={() => handleCancel(reservation._id)}>Cancelar</button>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 };

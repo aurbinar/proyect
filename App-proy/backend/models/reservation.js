@@ -4,7 +4,15 @@ const reservationSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId, // Relación con el usuario
     ref: 'User',
-    required: true,
+    required: false,
+  },
+  name: {
+    type: String,
+    required: function () { return !this.user; },
+  },
+  email: {
+    type: String,
+    required: function () { return !this.user; },
   },
   date: {
     type: Date, // Fecha de la reserva
@@ -19,7 +27,7 @@ const reservationSchema = new mongoose.Schema({
     type: Number, // Número de personas
     required: true,
     min: 2,
-    max: 8, // Puedes ajustar este límite según la capacidad del restaurante
+    max: 8, // ajustar este límite según la capacidad del restaurante
   },
   status: {
     type: String, // Estado de la reserva

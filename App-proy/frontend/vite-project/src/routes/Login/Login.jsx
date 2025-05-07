@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/authContext';
 import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const token = localStorage.getItem('token');
+
+  const { login, logout } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/auth/login', { email, password });
-      setToken(response.data.token);
-      localStorage.setItem('token', response.data.token);
+      login(response.data.token); 
       setMessage('Inicio de sesión exitoso');
     } catch (error) {
       setMessage(error.response.data.message || 'Error al iniciar sesión');
@@ -22,8 +24,7 @@ const Login = () => {
   };
 
   const handleLogout = () => {
-    setToken('');
-    localStorage.removeItem('token');
+    logout();
     setMessage('Sesión cerrada');
   };
 
