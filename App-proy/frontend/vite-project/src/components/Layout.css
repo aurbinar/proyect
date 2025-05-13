@@ -1,99 +1,216 @@
 /* Reset y estilos base */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-image: url('../assets/back.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    color: #333;
-  }
-  
-  .layout-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  /* Header */
-  .home-header {
-    background-color: #2c3e50;
-    color: white;
-    padding: 1rem 2rem 0.2rem;
-    position: fixed;
-    width: 100%;
-  }
-  
-  /* Logo centrado */
-  .logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .logo {
-    height: 80px;
-  }
-  
-  /* Zona de navegación: menú izquierda / login derecha */
-  .nav-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  /* Enlaces de navegación izquierda */
-  .nav-left ul {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
-  }
-  
-  .nav-left ul li a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-  }
-  
-  .nav-left ul li a:hover {
-    background-color: #07176c;
-    color: aqua;
-  }
-  
-  /* Login a la derecha */
-  .login-link {
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-  }
-  
-  .login-link:hover {
-    background-color: #07176c;
-    color: aqua;
-  }
-  
-  /* Main content */
-  main {
-    flex: 1;
-    padding: 10rem 2rem 4rem;
-  }
-  
-  /* Footer */
-  footer {
-    background-color: #343a40;
-    color: white;
-    padding: 20px;
-    text-align: center;
-  }
-  
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-image: url('../assets/back.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: #333;
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.home-header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 1rem 2rem 0.2rem;
+  position: fixed;
+  width: 100%;
+}
+
+/* Logo centrado */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  height: 80px;
+}
+
+/* Navegación */
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Enlaces de navegación izquierda */
+.nav-left ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-left ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.nav-left ul li a:hover {
+  background-color: #07176c;
+  color: aqua;
+}
+
+/* Enlaces de navegación derecha */
+.nav-right ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-right ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.nav-right ul li a:hover {
+  background-color: #07176c;
+  color: aqua;
+}
+
+/* Link de login */
+.login-link {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.login-link:hover {
+  background-color: #07176c;
+  color: aqua;
+}
+
+/* Main content */
+.main-default {
+  flex: 1;
+  padding: 10rem 2rem 4rem;
+  background: none;
+}
+
+/* Estilo para la ruta de reservas */
+.main-reservations {
+  min-height: 100vh;
+  width: 100vw;
+  padding-top: 8rem;
+  background-image: url('../assets/chuleton.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-carta {
+  padding: 10rem 2rem 4rem;
+  background-color: #fff8f0;
+}
+
+.main-menu {
+  padding: 10rem 2rem 4rem;
+  background-color: #f0fff8;
+}
+
+.main-auth {
+  padding: 10rem 2rem 4rem;
+  background-color: #f7f7f7;
+}
+
+/* Footer */
+footer {
+  background-color: #343a40;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  margin-top: auto;
+}
+
+/* Dropdown de usuario */
+.user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.user-button {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.user-button:hover {
+  background-color: #07176c;
+  color: aqua;
+}
+
+/* Menú desplegable */
+.dropdown-menu {
+  display: flex;
+  flex-direction: column; /* <--- Fuerza columna */
+  align-items: stretch; 
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: rgba(44, 62, 80, 0.95);
+  color: white;
+  list-style: none;
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  z-index: 1000;
+  min-width: 150px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Ítems del dropdown */
+.dropdown-item {
+  display: block;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: none;
+  color: white;
+  font-size: 0.95rem;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: left;
+  width: 100%;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Hover unificado */
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: aqua;
+}

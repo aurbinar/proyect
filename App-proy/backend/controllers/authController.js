@@ -8,10 +8,10 @@ import {registerSchema, loginSchema, recoverSchema, resetSchema} from "../schema
 export const register = async (req, res) => {
     const { error } = registerSchema.validate(req.body);
     if (error) {
+        console.log (error);
         return res.status(400).json({ message: error.details[0].message });
     }
-
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
 
     try {
         // Verifica si el usuario ya existe
@@ -21,7 +21,7 @@ export const register = async (req, res) => {
         }
     
         // Crea un nuevo usuario
-        const newUser = new User({ name, email, password });
+        const newUser = new User({ name, email, password, phone });
         await newUser.save();
     
         // Envía la respuesta con los datos del usuario (excluyendo la contraseña)
@@ -30,7 +30,8 @@ export const register = async (req, res) => {
         user: {
             id: newUser._id,
             name: newUser.name,
-            email: newUser.email
+            email: newUser.email,
+            phone: newUser.phone
         },
         });
     } catch (error) {
@@ -78,6 +79,7 @@ export const login = async (req, res) => {
             id: user._id,
             name: user.name,
             email: user.email,
+            phone: user.phone
         },
         token
         });
@@ -166,6 +168,7 @@ export const getMe = async (req, res) => {
         id: req.user._id,
         name: req.user.name,
         email: req.user.email,
+        phone: req.user.phone,
         role: req.user.role,
     });
   };

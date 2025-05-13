@@ -49,8 +49,23 @@ export const AuthProvider = ({ children = null }) => {
     setUser(null);
   };
 
+  const editProfile = async (updatedData) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.put('http://localhost:5000/profile/edit', updatedData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setUser(response.data.user); // Actualizar el usuario en el estado
+      return { success: true };
+    } catch (error) {
+      console.error('Error al actualizar perfil:', error);
+      return { success: false, message: error.response?.data?.message || 'Error desconocido' };
+    }
+  };
+  
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, isLoggedIn: !!user }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, isLoggedIn: !!user, editProfile }}>
       {children}
     </AuthContext.Provider>
   );

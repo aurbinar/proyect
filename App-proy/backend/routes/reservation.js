@@ -10,18 +10,21 @@ const MAX_RESERVATIONS_PER_SHIFT = 60;
 // Crear una reserva
 router.post('/create', optionalAuth, async (req, res) => {
 
-  const { error } = phoneSchema.validate(req.body.phone);
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
-
   const { date, shift, people, phone, name, email } = req.body;
 
-  if (!date || !shift || !people || !phone) {
+  if (!req.user) {
+    const { error } = phoneSchema.validate(phone);
+    if(error){
+      console.log(error);
+      return res.status(400).json({ message: error.details[0].message });
+    }
+  }
+
+  if (!date || !shift || !people ) {
     return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
   }
 
- if (!req.user && (!name || !email)) {
+ if (!req.user && (!name || !email || !phone)) {
     return res.status(400).json({ message: 'Nombre y email son obligatorios si no estás registrado.' });
   }
 
@@ -63,7 +66,7 @@ router.post('/create', optionalAuth, async (req, res) => {
       user: req.user?._id || null,
       name: req.user?.name || name,
       email: req.user?.email || email,
-      phone,
+      phone: req.user?.phone || phone,
       date: reservationDate,
       shift,
       people,

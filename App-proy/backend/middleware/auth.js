@@ -31,9 +31,8 @@ export const optionalAuth = async (req, res, next) => {
     if (user) req.user = user;
   } catch (err) {
     console.log("Token inválido o expirado");
-    // No hacemos res.status aquí, solo seguimos
   }
 
-  next(); // ← ¡esto es obligatorio!
+  next();
 };
 

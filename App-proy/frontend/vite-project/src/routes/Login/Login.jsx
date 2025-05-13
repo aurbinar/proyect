@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
@@ -9,6 +10,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+
 
   const { login, logout } = useAuth();
 
@@ -17,7 +20,9 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:5000/auth/login', { email, password });
       login(response.data.token); 
-      setMessage('Inicio de sesión exitoso');
+      setMessage(`Bienvenido ${response.data.name}`);
+      navigate('/');
+      // setTimeout(() => navigate('/'), 2000);
     } catch (error) {
       setMessage(error.response.data.message || 'Error al iniciar sesión');
     }
@@ -53,6 +58,9 @@ const Login = () => {
             required
           />
           <button type="submit">Iniciar Sesión</button>
+          <div className="login-links">
+            <Link to="/register">¿No tienes usuario? Registrate</Link>
+          </div>
           <div className="login-links">
             <Link to="/recover">¿Olvidaste tu contraseña?</Link>
           </div>

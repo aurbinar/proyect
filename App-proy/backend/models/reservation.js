@@ -36,7 +36,7 @@ const reservationSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    required: true,
+    required: function () { return !this.user; },
   },
 }, {
   timestamps: true, // Crea campos `createdAt` y `updatedAt`
