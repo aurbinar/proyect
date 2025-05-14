@@ -13,6 +13,10 @@ import Register from './routes/register/Register.jsx';
 import EditProfile from './routes/profile/EditProfile.jsx';
 import Layout from './components/Layout.jsx';
 import ReservationHistory from './routes/profile/ReservationHistory.jsx';
+import AdminRoute from './components/AdminRoute.jsx';
+import AdminUsers from './routes/admin/AdminUsers.jsx';
+import AdminReservations from './routes/admin/AdminReservations.jsx';
+import AdminDashboard from './routes/admin/AdminDashboard.jsx';
 
 
 function App() {
@@ -31,7 +35,10 @@ function App() {
             <Route path="/profile/edit" element={<ProtectedRoute><EditProfile/></ProtectedRoute>}/>
             <Route path="/profile/reservationHistory" element={<ProtectedRoute><ReservationHistory/></ProtectedRoute>}/>
           </Route>
-            <Route path="/editDishes" element={<Dishes/>}/>
+            <Route path="/editDishes" element={<AdminRoute><ProtectedRoute><Dishes/></ProtectedRoute></AdminRoute>}/>
+            <Route path="/users" element={<AdminRoute><ProtectedRoute><AdminUsers/></ProtectedRoute></AdminRoute>}/>
+            <Route path="/adminReservations" element={<AdminRoute><ProtectedRoute><AdminReservations/></ProtectedRoute></AdminRoute>}/>
+            <Route path="/dashboard" element={<AdminRoute><ProtectedRoute><AdminDashboard/></ProtectedRoute></AdminRoute>}/>
           <Route path="/reset/:token" element={<ResetPassword />} />
         </Routes>
       </div>

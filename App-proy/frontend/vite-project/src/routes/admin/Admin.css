@@ -1,0 +1,35 @@
+.admin-container {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.admin-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.admin-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.admin-container th,
+.admin-container td {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.admin-container button {
+  margin-right: 0.5rem;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+}
+
+.admin-container .danger {
+  background-color: #e63946;
+  color: white;
+  border: none;
+}

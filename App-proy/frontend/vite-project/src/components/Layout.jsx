@@ -37,19 +37,6 @@ export default function Layout() {
           <Link to="/">
             <img src={logo} alt="Logo del Restaurante" className="logo" />
           </Link>
-        </div>
-
-        {/* Navegación */}
-        <div className="nav-bar">
-          <div className="nav-left">
-            <ul>
-              <li><Link to="/carta">Carta</Link></li>
-              <li><Link to="/menu">Menu</Link></li>
-              <li><Link to="/reservations">Reservas</Link></li>
-            </ul>
-          </div>
-
-          {/* Sección de usuario */}
           <div className="nav-right">
             {!isLoggedIn ? (
               <ul>
@@ -71,6 +58,20 @@ export default function Layout() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Navegación */}
+        <div className="nav-bar">
+          <div className="nav-left">
+            <ul>
+              <li><Link to="/carta">Carta</Link></li>
+              <li><Link to="/menu">Menu</Link></li>
+              <li><Link to="/reservations">Reservas</Link></li>
+            </ul>
+          </div>
+
+          {/* Sección de usuario */}
+          
         </div>
       </header>
 
