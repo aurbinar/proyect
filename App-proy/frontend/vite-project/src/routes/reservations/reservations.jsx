@@ -74,7 +74,7 @@ const Reservation = () => {
   };
 
   return (
-    <div className="reservation-container" style={{ height: '100vh', width: '100vw' }}>
+    <div className="reservation-container" >
       <div className="form-container">
         <h2>Reservar una Mesa</h2>
         <form onSubmit={handleReservation}>

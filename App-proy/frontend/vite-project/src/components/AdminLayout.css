@@ -1,0 +1,45 @@
+.admin-layout {
+  display: flex;
+  height: 100vh;
+  background-color: #f8f9fa;
+  background-image: url('../assets/logo.png');
+}
+
+.admin-sidebar {
+  width: 220px;
+  background-color: #343a40;
+  color: #fff;
+  padding: 1rem;
+}
+
+.admin-sidebar h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.admin-sidebar li {
+  margin-bottom: 1rem;
+}
+
+.admin-sidebar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.admin-sidebar a:hover {
+  text-decoration: underline;
+}
+
+.admin-content {
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  background-color: #ffffff;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './admin.css';
+import './Admin.css';
 
 const AdminUsers = () => {
 
@@ -47,6 +47,7 @@ const AdminUsers = () => {
           <tr>
             <th>Nombre</th>
             <th>Email</th>
+            <th>Telefono</th>
             <th>Estado</th>
             <th>Acciones</th>
           </tr>
@@ -56,6 +57,7 @@ const AdminUsers = () => {
             <tr key={user._id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
+              <td>{user.phone}</td>
               <td>{user.isBlocked ? 'Bloqueado' : 'Activo'}</td>
               <td>
                 <button onClick={() => toggleBlock(user._id, user.isBlocked)}>

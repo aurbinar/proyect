@@ -48,7 +48,11 @@ const Menu = () => {
       </div>
       <div className="menu-section">
         <h3>Especial</h3>
-        <p>{menu.especial}</p>
+        <ul>
+          {menu.especial.map((plato, index) => (
+            <li key={index}>{plato}</li>
+          ))}
+        </ul>
       </div>
       <div className="menu-section">
         <h3>Postres</h3>

@@ -8,10 +8,10 @@ const router = express.Router();
 
 // Obtener todas las reservas
 router.get('/admin/reservations', authenticateAdmin, async (req, res) => {
-  const { status } = req.query; // Filtrar por estado si es necesario
+  const { status } = req.query; 
 
   try {
-    const query = status ? { status } : {}; // Filtro opcional
+    const query = status ? { status } : {}; 
     const reservations = await Reservation.find(query).populate('user', 'name email').sort({ date: -1 });
     res.status(200).json(reservations);
   } catch (error) {

@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Home from './Home.jsx';
 import ProtectedRoute from './components/ProtectedRoutes.jsx';
-import Dishes from './routes/dishes/Dishes.jsx';
 import DishList from './routes/dishes/DishList.jsx';
 import Login from './routes/Login/Login.jsx';
 import RecoverPassword from './routes/Login/recoverPassword.jsx';
@@ -17,33 +16,47 @@ import AdminRoute from './components/AdminRoute.jsx';
 import AdminUsers from './routes/admin/AdminUsers.jsx';
 import AdminReservations from './routes/admin/AdminReservations.jsx';
 import AdminDashboard from './routes/admin/AdminDashboard.jsx';
+import UpdateMenu from './routes/admin/UpdateMenu.jsx';
+import CreateMenu from './routes/admin/CreateMenu.jsx';
+import AdminLayout from './components/AdminLayout.jsx';
+import EditDishes from './routes/admin/EditDishes.jsx';
+import PostDish from './routes/admin/PostDish.jsx';
+
+
 
 
 function App() {
   return (
     <Router>
-      <div>
-        <Routes>
-          <Route element={<Layout/>}>
-            <Route path="/" element={<Home />} />
-            <Route path="/carta" element={<DishList />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/reservations" element={<Reservation />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/recover" element={<RecoverPassword />} />
-            <Route path="/register" element={<Register/>}/>
-            <Route path="/profile/edit" element={<ProtectedRoute><EditProfile/></ProtectedRoute>}/>
-            <Route path="/profile/reservationHistory" element={<ProtectedRoute><ReservationHistory/></ProtectedRoute>}/>
-          </Route>
-            <Route path="/editDishes" element={<AdminRoute><ProtectedRoute><Dishes/></ProtectedRoute></AdminRoute>}/>
-            <Route path="/users" element={<AdminRoute><ProtectedRoute><AdminUsers/></ProtectedRoute></AdminRoute>}/>
-            <Route path="/adminReservations" element={<AdminRoute><ProtectedRoute><AdminReservations/></ProtectedRoute></AdminRoute>}/>
-            <Route path="/dashboard" element={<AdminRoute><ProtectedRoute><AdminDashboard/></ProtectedRoute></AdminRoute>}/>
-          <Route path="/reset/:token" element={<ResetPassword />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route element={<Layout/>}>
+          <Route path="/" element={<Home />} />
+          <Route path="/carta" element={<DishList />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/reservations" element={<Reservation />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/recover" element={<RecoverPassword />} />
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/profile/edit" element={<ProtectedRoute><EditProfile/></ProtectedRoute>}/>
+          <Route path="/profile/reservationHistory" element={<ProtectedRoute><ReservationHistory/></ProtectedRoute>}/>
+        </Route>
+
+        <Route path="/admin" element={<ProtectedRoute><AdminRoute><AdminLayout/></AdminRoute></ProtectedRoute>}>
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="editDishes" element={<EditDishes />} />
+          <Route path="postDishes" element={<PostDish />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="adminReservations" element={<AdminReservations />} />
+          <Route path="updateMenu" element={<UpdateMenu />} />
+          <Route path="createMenu" element={<CreateMenu />} />
+        </Route>    
+
+        <Route path="/reset/:token" element={<ResetPassword />} />
+        
+      </Routes>
     </Router>
   );
 }
 
 export default App;
+

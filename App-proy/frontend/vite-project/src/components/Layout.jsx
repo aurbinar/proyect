@@ -31,49 +31,41 @@ export default function Layout() {
 
   return (
     <div className="layout-container">
-      <header className="home-header">
-        {/* Logo */}
-        <div className="logo-container">
-          <Link to="/">
-            <img src={logo} alt="Logo del Restaurante" className="logo" />
-          </Link>
-          <div className="nav-right">
-            {!isLoggedIn ? (
-              <ul>
-                <li><Link to="/login" className="login-link">Iniciar Sesión</Link></li>
-                <li><Link to="/register" className="login-link">Registrarse</Link></li>
-              </ul>
-            ) : (
-              <div className="user-dropdown">
-                <button onClick={() => setShowMenu(!showMenu)} className="user-button">
-                  {user?.name || 'Usuario'} ⌄
-                </button>
-                {showMenu && (
-                  <ul className="dropdown-menu">
-                    <li><button className="dropdown-item" onClick={() => { setShowMenu(false); navigate('/profile/edit'); }}>Editar Perfil</button></li>
-                    <li><button className="dropdown-item" onClick={() => { setShowMenu(false); navigate('/profile/reservationHistory'); }}>Historial de reservas</button></li>                              
-                    <li><button className="dropdown-item" onClick={handleLogout}>Cerrar sesión</button></li>
-                  </ul>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
+      <header className="home-header"> 
+        <div className="header-content"> 
+          <div className="logo-container"> <Link to="/"> <img src={logo} alt="Logo del Restaurante" className="logo" /> </Link> </div>
 
-        {/* Navegación */}
-        <div className="nav-bar">
-          <div className="nav-left">
+        {/* Navegación en el centro */}
+        <nav className="nav-center">
+          <ul>
+            <li><Link to="/carta">Carta</Link></li>
+            <li><Link to="/menu">Menú</Link></li>
+            <li><Link to="/reservations">Reservas</Link></li>
+          </ul>
+        </nav>
+
+        {/* Usuario a la derecha */}
+        <div className="nav-right">
+          {!isLoggedIn ? (
             <ul>
-              <li><Link to="/carta">Carta</Link></li>
-              <li><Link to="/menu">Menu</Link></li>
-              <li><Link to="/reservations">Reservas</Link></li>
+              <li><Link to="/login" className="login-link">Iniciar Sesión</Link></li>
             </ul>
-          </div>
-
-          {/* Sección de usuario */}
-          
+          ) : (
+            <div className="user-dropdown">
+              <button onClick={() => setShowMenu(!showMenu)} className="user-button">
+                {user?.name || 'Usuario'} ⌄
+              </button>
+              {showMenu && (
+                <ul className="dropdown-menu">
+                  <li><button className="dropdown-item" onClick={() => { setShowMenu(false); navigate('/profile/edit'); }}>Editar Perfil</button></li>
+                  <li><button className="dropdown-item" onClick={() => { setShowMenu(false); navigate('/profile/reservationHistory'); }}>Historial de reservas</button></li>
+                  <li><button className="dropdown-item" onClick={handleLogout}>Cerrar sesión</button></li>
+                </ul>
+              )}
+            </div>
+          )}
         </div>
-      </header>
+      </div> </header>
 
       <main className={mainClass}>
         <Outlet />
