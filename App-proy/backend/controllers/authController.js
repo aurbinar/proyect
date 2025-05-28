@@ -74,9 +74,9 @@ export const login = async (req, res) => {
 
 		// Generar token JWT
 		const token = jwt.sign(
-			{ id: user._id, role: user.role }, // Información que irá en el token
-			process.env.JWT_SECRET,           // Llave secreta
-			{ expiresIn: '1d' }               // Expira en 1 día
+			{ id: user._id, role: user.role }, 
+			process.env.JWT_SECRET,           
+			{ expiresIn: '1d' }               
 		);
 
 		res.status(200).json({
@@ -118,7 +118,7 @@ export const recover = async (req, res) => {
 		);
 
 		// Crear enlace de restablecimiento
-		const resetLink = `http://localhost:5000/auth/reset/${resetToken}`;
+		const resetLink = `http://localhost:5173/reset/${resetToken}`;
 
 		// Enviar correo al usuario
 		await sendEmail(

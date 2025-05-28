@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 import './admin.css';
 
 const CreateMenu = () => {
@@ -11,8 +12,6 @@ const CreateMenu = () => {
   });
 
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-
-
   const token = localStorage.getItem('token');
 
   const handleChange = (section, index, value) => {
@@ -21,25 +20,27 @@ const CreateMenu = () => {
     setMenu(prev => ({ ...prev, [section]: updated }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetch('http://localhost:5000/api/createMenu', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ ...menu, date: date }),
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data && data._id) {
-          alert('Menú creado correctamente.');
-        } else {
-          alert('Error al crear el menú.');
+    try {
+      const { data } = await axios.post(
+        'http://localhost:5000/api/createMenu',
+        { ...menu, date: date },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
         }
-      })
-      .catch(() => alert('Error en la solicitud.'));
+      );
+      if (data && data._id) {
+        alert('Menú creado correctamente.');
+      } else {
+        alert('Error al crear el menú.');
+      }
+    } catch {
+      alert('Error en la solicitud.');
+    }
   };
 
   return (

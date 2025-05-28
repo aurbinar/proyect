@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import "./Admin.css" 
+import axios from 'axios';
+import "./Admin.css";
 
 const UpdateMenu = () => {
   const [menu, setMenu] = useState(null);
@@ -10,25 +11,23 @@ const UpdateMenu = () => {
 
   useEffect(() => {
     if (!date) return;
-    fetch(`http://localhost:5000/api/getDayMenu?date=${date}`, {
+    axios.get(`http://localhost:5000/api/getDayMenu`, {
+      params: { date },
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then(async res => {
-        if (!res.ok) {
-          const errorData = await res.json();
-          setMenu(null);
-          setMessage(errorData.message || 'Error al obtener el menú');
-          return;
-        }
-        const data = await res.json();
-        setMenu(data);
+      .then(res => {
+        setMenu(res.data);
         setMessage('');
       })
-      .catch(() => {
+      .catch(error => {
         setMenu(null);
-        setMessage('No se pudo cargar el menú para la fecha seleccionada');
+        if (error.response && error.response.data && error.response.data.message) {
+          setMessage(error.response.data.message);
+        } else {
+          setMessage('No se pudo cargar el menú para la fecha seleccionada');
+        }
       });
   }, [date, token]);
 
@@ -40,15 +39,12 @@ const UpdateMenu = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch('http://localhost:5000/api/updateMenu', {
-      method: 'PUT',
+    axios.put('http://localhost:5000/api/updateMenu', { ...menu, date }, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ ...menu, date }),
     })
-      .then(res => res.json())
       .then(() => alert('Menú actualizado correctamente.'));
   };
 
@@ -62,8 +58,6 @@ const UpdateMenu = () => {
         value={date}
         onChange={e => setDate(e.target.value)}
       />
-
-
       {menu ? (
         <form onSubmit={handleSubmit} className="menu-form">
           {['primeros', 'segundos', 'especial', 'postres'].map(section => (

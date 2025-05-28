@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/authContext';
 import "./EditProfile.css"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const EditProfile = () => {
   const { user, editProfile } = useAuth();
   const [name, setName] = useState(user?.name || '');
+  const [email, setEmail] = useState(user?.email);
   const [phone, setPhone] = useState(user?.phone || '');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
@@ -26,6 +27,11 @@ const EditProfile = () => {
       <h2>Editar Perfil</h2>
       <form onSubmit={handleSubmit} className="edit-form">
         <label>
+          Email:
+          <br />
+          {email}
+        </label>
+        <label>
           Nombre:
           <input
             type="text"
@@ -44,6 +50,7 @@ const EditProfile = () => {
           />
         </label>
         <button type="submit">Guardar cambios</button>
+        <Link  to="/profile/changePassword" className="change-password">Cambiar contraseña</Link>
       </form>
       {message && <p className="edit-message">{message}</p>}
     </div>

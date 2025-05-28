@@ -140,27 +140,31 @@ const Reservation = () => {
 
         {message && <p>{message}</p>}
          
-      {isLoggedIn && (
-        <>
-          <h3>Mis Reservas</h3>
-          <ul>
-            {reservations
-            .filter((reservation)=> reservation.status == "confirmed")
-            .map((reservation) => (
-              <li key={reservation._id}>
-                {new Date(reservation.date).toLocaleDateString()} - Turno {reservation.shift} - {reservation.people} personas - {reservation.status}
-                <button onClick={() => handleCancel(reservation._id)}>Cancelar</button>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+        {isLoggedIn && (
+          <>
+            <h3>Mis Reservas</h3>
+            <ul className="active-reservations">
+              {reservations
+                .filter((reservation) => {
+                  const today = new Date();
+                  const resDate = new Date(reservation.date);
+                  return reservation.status === "confirmed" && resDate >= today;
+                })
+                .map((reservation) => (
+                  <li key={reservation._id}>
+                    {new Date(reservation.date).toLocaleDateString()} - Turno {reservation.shift} <br/> {reservation.people} personas - {reservation.status}
+                    <button onClick={() => handleCancel(reservation._id)}>Cancelar</button>
+                  </li>
+                ))}
+            </ul>
+          </>
+        )}
       </div>   
       <div className="map-container">
         <h3>¿Dónde estamos?</h3>
         <iframe
           title="Ubicación del Restaurante"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6077.014829644837!2d-3.606967823470259!3d40.39760865680221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42256e23fbcd49%3A0xf1835ff8d8b458f!2sRestaurante%20Carb%C3%B3nico%20by%20La%20Birra%20es%20Bella!5e0!3m2!1ses!2ses!4v1747154867086!5m2!1ses!2ses" // <- Reemplaza esto con el link real de tu ubicación
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6077.014829644837!2d-3.606967823470259!3d40.39760865680221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42256e23fbcd49%3A0xf1835ff8d8b458f!2sRestaurante%20Carb%C3%B3nico%20by%20La%20Birra%20es%20Bella!5e0!3m2!1ses!2ses!4v1747154867086!5m2!1ses!2ses"
           allowFullScreen=""
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"

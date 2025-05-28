@@ -9,25 +9,46 @@ const AddDish = () => {
     description: '',
     price: '',
     allergens: '',
-    image: '',
+    image: null,
   });
 
   const [message, setMessage] = useState('');
+  const token = localStorage.getItem('token');
 
-  const categories = ['Entrante', 'Principal', 'Postre', 'Bebida', 'Especial'];
+  const categories = [
+    'Entrante', 'Arroces y Fideua', 'Carnes', 'Hamburgesas',
+    'Tostas', 'Ensaladas', 'Pescados y Mariscos', 'Postres'
+  ];
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    const { name, value, files } = e.target;
+    if (name === 'image') {
+      setFormData(prev => ({ ...prev, image: files[0] }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const form = new FormData();
+    form.append('category', formData.category);
+    form.append('name', formData.name);
+    form.append('description', formData.description);
+    form.append('price', formData.price);
+    form.append('allergens', formData.allergens);
+    if (formData.image) {
+      form.append('image', formData.image);
+    }
+
     try {
-      const res = await axios.post('/api/postDishes', formData, { withCredentials: true });
+      const response = await axios.post('http://localhost:5000/api/postDishes', form, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       setMessage('Plato añadido con éxito');
       setFormData({
         category: '',
@@ -35,10 +56,13 @@ const AddDish = () => {
         description: '',
         price: '',
         allergens: '',
-        image: '',
+        image: null,
       });
-    } catch (err) {
-      setMessage('Error al añadir el plato');
+    } catch (error) {
+      console.error(error.response?.data || error.message);
+      setMessage(
+        error.response?.data?.message || 'Error al añadir el plato'
+      );
     }
   };
 
@@ -53,47 +77,11 @@ const AddDish = () => {
           ))}
         </select>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Nombre del plato"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-
-        <textarea
-          name="description"
-          placeholder="Descripción"
-          value={formData.description}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          type="number"
-          name="price"
-          placeholder="Precio"
-          value={formData.price}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          type="text"
-          name="allergens"
-          placeholder="Alérgenos"
-          value={formData.allergens}
-          onChange={handleChange}
-        />
-
-        <input
-          type="text"
-          name="image"
-          placeholder="URL de la imagen"
-          value={formData.image}
-          onChange={handleChange}
-        />
+        <input type="text" name="name" placeholder="Nombre del plato" value={formData.name} onChange={handleChange} required />
+        <textarea name="description" placeholder="Descripción" value={formData.description} onChange={handleChange} required />
+        <input type="text" name="price" placeholder="Precio" value={formData.price} onChange={handleChange} required />
+        <input type="text" name="allergens" placeholder="Alérgenos" value={formData.allergens} onChange={handleChange} />
+        <input type="file" name="image" accept="image/*" onChange={handleChange} />
 
         <button type="submit">Añadir Plato</button>
       </form>

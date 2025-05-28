@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import './ResetPassword.css';
+import './resetPassword.css';
+
 
 const ResetPassword = () => {
   const { token } = useParams();
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
 
   const handleReset = async (e) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setMessage('Las contraseñas no coinciden.');
+      return;
+    }
+
     try {
       const response = await axios.post(`http://localhost:5000/auth/reset/${token}`, { password });
       setMessage(response.data.message);
     } catch (error) {
-      setMessage(error.response.data.message || 'Error al restablecer la contraseña.');
+      setMessage(error.response?.data?.message || 'Error al restablecer la contraseña.');
     }
   };
 
@@ -28,6 +36,15 @@ const ResetPassword = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Confirmar contraseña:
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </label>

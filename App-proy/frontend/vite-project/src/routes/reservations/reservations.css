@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 3rem;
+  gap: 7rem;
   padding: 50px;
   min-height: 100vh;
   background-size: cover;
@@ -24,7 +24,6 @@
 
 form label {
   display: block;
-  margin-bottom: 10px;
   font-weight: bold;
 }
 
@@ -55,6 +54,11 @@ button[type='submit']:hover {
   background-color: #0056b3;
 }
 
+.map-container h3 {
+  color: #f6f6ef;
+  font-size: 1.5rem;
+}
+
 .map-container {
   flex: 1;
   max-width: 700px;
@@ -66,4 +70,36 @@ button[type='submit']:hover {
   width: 100%;
   height: 500px;
   border-radius: 10px;
+}
+
+.active-reservations {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.active-reservations li {
+  background-color: #f8f9fa;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border-left: 4px solid #48b002;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.active-reservations li button {
+  background-color: #f80707;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.active-reservations li button:hover {
+  background-color: #212529;
 }

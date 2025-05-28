@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 
 const dishSchema = new mongoose.Schema(
   {
-    category: { type: String, required: true }, // ej: Entrantes, Carnes, etc.
+    category: { type: String, required: true }, 
     name: { type: String, required: true },
     description: { type: String },
-    price: { type: Number, required: true },
+    price: { type: String, required: true },
     allergens: [{ type: String }],
-    image: { type: String } // URL de la imagen
+    image: { type: String } 
   }
 );
 

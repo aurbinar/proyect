@@ -1,8 +1,6 @@
 .admin-layout {
   display: flex;
   height: 100vh;
-  background-color: #f8f9fa;
-  background-image: url('../assets/logo.png');
 }
 
 .admin-sidebar {

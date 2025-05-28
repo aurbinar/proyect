@@ -5,7 +5,7 @@ import ProtectedRoute from './components/ProtectedRoutes.jsx';
 import DishList from './routes/dishes/DishList.jsx';
 import Login from './routes/Login/Login.jsx';
 import RecoverPassword from './routes/Login/recoverPassword.jsx';
-import ResetPassword from './routes/Login/resetPassword.jsx';
+import ResetPassword from './routes/profile/resetPassword.jsx';
 import Menu from './routes/Menu/Menu.jsx';
 import Reservation from './routes/reservations/reservations.jsx';
 import Register from './routes/register/Register.jsx';
@@ -39,6 +39,8 @@ function App() {
           <Route path="/register" element={<Register/>}/>
           <Route path="/profile/edit" element={<ProtectedRoute><EditProfile/></ProtectedRoute>}/>
           <Route path="/profile/reservationHistory" element={<ProtectedRoute><ReservationHistory/></ProtectedRoute>}/>
+          <Route path="/profile/changePassword" element={<ProtectedRoute><ResetPassword/></ProtectedRoute>}/>
+          <Route path="/reset/:token" element={<ResetPassword/>}/>
         </Route>
 
         <Route path="/admin" element={<ProtectedRoute><AdminRoute><AdminLayout/></AdminRoute></ProtectedRoute>}>

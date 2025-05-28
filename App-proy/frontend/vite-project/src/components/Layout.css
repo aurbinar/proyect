@@ -1,4 +1,3 @@
-/* Reset y estilos base */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,8 +5,6 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-image: url('../assets/back.png');
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
@@ -17,17 +14,35 @@ body {
 .layout-container {
   display: flex;
   flex-direction: column;
+  background-color: #ffffff;
   min-height: 100vh;
 }
 
 /* Header */
+
+.home-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  padding: 0.5rem 0;
+  background-color: #2e2f35;
   gap: 1rem;
+}
+
+.header-content.scrolled {
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
+}
+
+.header-content.scrolled:hover {
+  opacity: 1;
 }
 
 /* Centrado de la barra de navegación */
@@ -46,6 +61,7 @@ body {
 }
 
 .nav-center ul li a {
+  font-family: 'Segoe UI', sans-serif;
   color: white;
   text-decoration: none;
   font-weight: bold;
@@ -55,8 +71,7 @@ body {
 }
 
 .nav-center ul li a:hover {
-  background-color: #2e2f35;
-  color: rgb(242, 242, 242);
+  color: rgb(112, 111, 111);
 }
 
 
@@ -68,7 +83,7 @@ body {
 }
 
 .logo {
-  height: 60px;
+  height: 50px;
 }
 
 /* Enlaces de navegación derecha */
@@ -80,6 +95,7 @@ body {
 }
 
 .nav-right ul li a {
+  font-family: 'Segoe UI', sans-serif;
   color: white;
   text-decoration: none;
   font-weight: bold;
@@ -89,8 +105,7 @@ body {
 }
 
 .nav-right ul li a:hover {
-  background-color: #2e2f35;
-  color: rgb(242, 242, 242); 
+  color: rgb(112, 111, 111);
 }
 
 /* Link de login */
@@ -130,13 +145,48 @@ body {
 }
 
 .main-carta {
-  padding: 4rem 2rem 4rem;
-  background-color: #ffffff;
+  position: relative;
+  padding: 8rem 2rem 4rem;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.main-carta::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/carta.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll;
+  opacity: 0.5;
+  z-index: -1;
 }
 
 .main-menu {
-  padding: 4rem 2rem 4rem;
-  background-color: #ffffff;
+  position: relative;
+  padding: 5rem 2rem 4rem;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.main-menu::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/backMenu.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: scroll;
+  opacity: 0.8;
+  z-index: -1;
 }
 
 .main-auth {
@@ -176,15 +226,19 @@ footer {
   color: rgb(242, 242, 242);
 }
 
+.arrow {
+  height: 15px;
+}
+
 /* Menú desplegable */
 .dropdown-menu {
   display: flex;
-  flex-direction: column; /* <--- Fuerza columna */
+  flex-direction: column;
   align-items: stretch; 
   position: absolute;
   right: 0;
   top: 100%;
-  background-color: rgba(44, 62, 80, 0.95);
+  background-color: rgba(66, 74, 82, 0.95);
   color: white;
   list-style: none;
   padding: 0.5rem 0;

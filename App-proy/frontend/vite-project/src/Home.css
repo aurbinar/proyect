@@ -32,3 +32,8 @@
   color: #6c757d;
   margin: 10px 0;
 }
+
+.home-image {
+  max-width: 680px;
+  min-height: 300px;
+}

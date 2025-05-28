@@ -48,6 +48,7 @@ const Menu = () => {
       </div>
       <div className="menu-section">
         <h3>Especial</h3>
+        <h4 className="especial-descripcion">Primero a elegir del menú del día y dos segundos especiales seleccionables.</h4>
         <ul>
           {menu.especial.map((plato, index) => (
             <li key={index}>{plato}</li>
@@ -63,7 +64,7 @@ const Menu = () => {
         </ul>
       </div>
       <div className="menu-section">
-        <h3>Precio</h3>
+        <h3>Precio</h3><br/>
         <p>{menu.precio} €</p>
       </div>
     </div>

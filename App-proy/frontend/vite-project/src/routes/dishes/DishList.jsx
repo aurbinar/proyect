@@ -1,61 +1,93 @@
-// src/pages/DishList.jsx
 import React, { useState, useEffect } from 'react';
 import { getDishes } from '../api';
 import './DishList.css';
 
 function DishList() {
-    const [dishes, setDishes] = useState([]);
-    const [filteredDishes, setFilteredDishes] = useState([]);
-    const [category, setCategory] = useState('');
+  const [dishes, setDishes] = useState([]);
+  const [expandedId, setExpandedId] = useState(null);
+  const [modalImage, setModalImage] = useState(null);
+
+  useEffect(() => {
+    fetchDishes();
+  }, []);
+
   
-    useEffect(() => {
-      fetchDishes();
-    }, []);
-  
-    const fetchDishes = async () => {
-      const data = await getDishes();
-      setDishes(data);
-      setFilteredDishes(data);
-    };
-  
-    const handleCategoryChange = (e) => {
-      const selectedCategory = e.target.value;
-      setCategory(selectedCategory);
-      if (selectedCategory === '') {
-        setFilteredDishes(dishes);
-      } else {
-        setFilteredDishes(dishes.filter(dish => dish.category === selectedCategory));
-      }
-    };
-  
-    return (
-      <div className="dish-list-container">
-        <h1>Lista de Platos</h1>
-        <div className="filter-container">
-          <label htmlFor="category">Filtrar por Categoría:</label>
-          <select id="category" value={category} onChange={handleCategoryChange}>
-            <option value="">Todas</option>
-            <option value="Entrantes">Entrantes</option>
-            <option value="Principal">Principal</option>
-            <option value="Postre">Postre</option>
-            {/* Añade más opciones según tus categorías */}
-          </select>
+  const fetchDishes = async () => {
+    const data = await getDishes();
+    setDishes(data);
+  };
+
+  const toggleExpand = (id) => {
+    setExpandedId(prevId => (prevId === id ? null : id));
+  };
+
+  const openImageModal = (imageUrl) => {
+    setModalImage(imageUrl);
+  };
+
+  const closeImageModal = () => {
+    setModalImage(null);
+  };
+
+  // Agrupar por categoría
+  const groupedByCategory = dishes.reduce((groups, dish) => {
+    const category = dish.category || 'Sin categoría';
+    if (!groups[category]) {
+      groups[category] = [];
+    }
+    groups[category].push(dish);
+    return groups;
+  }, {});
+
+  return (
+    <div className="dish-list-container">
+      <h1>Lista de Platos</h1>
+      {Object.entries(groupedByCategory).map(([category, dishesInCategory]) => (
+        <div key={category} className="dish-category-group">
+          <h2 className="dish-category-title">{category}</h2>
+          <ul className="dish-list">
+            {dishesInCategory.map((dish) => (
+              <li key={dish._id} className="dish-item" onClick={() => toggleExpand(dish._id)}>
+                <div className="dish-summary">
+                  <span className="dish-name">{dish.name}</span>
+                  <span className="dish-price">{dish.price} €</span>
+                </div>
+                {expandedId === dish._id && (
+                  <div className="dish-details">
+                    <div className="dish-info">
+                      <p>{dish.description}</p>
+                      <p>Alérgenos: {dish.allergens}</p>
+                    </div>
+                    {dish.image && (
+                      <img
+                        src={dish.image}
+                        alt={dish.name}
+                        className="dish-image"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openImageModal(dish.image);
+                        }}
+                      />
+                    )}
+                    {modalImage && (
+                      <div className="image-modal-backdrop" onClick={closeImageModal}>
+                        <img
+                          src={modalImage}
+                          alt="Plato ampliado"
+                          className="image-modal"
+                          onClick={(e) => e.stopPropagation()} // evita que se cierre si haces clic en la imagen
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className="dish-list">
-          {filteredDishes.map((dish) => (
-            <li key={dish._id} className="dish-item">
-              <h2>{dish.name}</h2>
-              <p>{dish.description}</p>
-              <p>Precio: {dish.price}</p>
-              <p>Categoría: {dish.category}</p>
-              <p>Descripcion: {dish.description}</p>
-              <p>Alérgenos: {dish.allergens}</p>
-              <img src={dish.image} alt={dish.name} className="dish-image" />
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-  
-  export default DishList;
+      ))}
+    </div>
+  );
+}
+
+export default DishList;

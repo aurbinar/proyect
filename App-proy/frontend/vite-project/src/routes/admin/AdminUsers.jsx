@@ -1,42 +1,39 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import './Admin.css';
 
 const AdminUsers = () => {
 
   const [users, setUsers] = useState([]);
 
-	const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    fetch('http://localhost:5000/protected/admin/users', {
+    axios.get('http://localhost:5000/protected/admin/users', {
       headers: { Authorization: `Bearer ${token}` },
     })
-      .then(res => res.json())
-      .then(data => setUsers(data));
+      .then(res => setUsers(res.data));
   }, [token]);
 
   const toggleBlock = (id, currentStatus) => {
-    fetch(`http://localhost:5000/protected/admin/blockUser/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ block: !currentStatus }),
-    })
-      .then(res => res.json())
-      .then(() => {
-        setUsers(prev => prev.map(u => u._id === id ? { ...u, isBlocked: !currentStatus } : u));
-      });
+    axios.put(
+      `http://localhost:5000/protected/admin/blockUser/${id}`,
+      { block: !currentStatus },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    ).then(() => {
+      setUsers(prev => prev.map(u => u._id === id ? { ...u, isBlocked: !currentStatus } : u));
+    });
   };
 
   const deleteUser = id => {
-    fetch(`http://localhost:5000/protected/admin/deleteUser/${id}`, {
-      method: 'DELETE',
+    axios.delete(`http://localhost:5000/protected/admin/deleteUser/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(res => res.json())
-      .then(() => setUsers(prev => prev.filter(u => u._id !== id)));
+    }).then(() => setUsers(prev => prev.filter(u => u._id !== id)));
   };
 
   return (

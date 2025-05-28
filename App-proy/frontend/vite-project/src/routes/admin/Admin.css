@@ -46,11 +46,11 @@
 }
 
 .icon-buttons .edit-icon {
-  color: #0ea5e9; /* azul claro */
+  color: #0ea5e9; 
 }
 
 .icon-buttons .delete-icon {
-  color: #dc2626; /* rojo */
+  color: #dc2626;
 }
 
 .edit-form {
@@ -84,12 +84,12 @@
 }
 
 .edit-form-buttons .save-btn {
-  background-color: #22c55e; /* verde */
+  background-color: #22c55e;
   color: white;
 }
 
 .edit-form-buttons .cancel-btn {
-  background-color: #ef4444; /* rojo */
+  background-color: #ef4444; 
   color: white;
 }
 
@@ -266,4 +266,61 @@ button.danger:hover {
   font-weight: bold;
   text-transform: capitalize;
   text-align: center;
+}
+
+.dish-category-group {
+  margin-bottom: 40px;
+}
+
+.dish-category-group h3 {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 1.8rem;
+  color: #444;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.modal .confirm {
+  background: #d9534f;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+}
+
+.modal .cancel {
+  background: #ccc;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
 }

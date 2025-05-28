@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import './Admin.css';
 
 const AdminReservations = () => {
@@ -9,43 +10,48 @@ const AdminReservations = () => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    fetch('http://localhost:5000/protected/admin/reservations', {
+    axios.get('http://localhost:5000/protected/admin/reservations', {
       headers: { Authorization: `Bearer ${token}` },
     })
-      .then(res => res.json())
-      .then(data => setReservations(data));
+      .then(res => setReservations(res.data));
   }, [token]);
 
   const updateStatus = (id, status) => {
-    fetch(`http://localhost:5000/protected/admin/reservations/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ status }),
-    })
-      .then(res => res.json())
-      .then(data => {
-        setReservations(prev =>
-          prev.map(r => (r._id === id ? { ...r, status: data.reservation.status } : r))
-        );
-      });
+    axios.put(
+      `http://localhost:5000/protected/admin/reservations/${id}`,
+      { status },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    ).then(res => {
+      setReservations(prev =>
+        prev.map(r => (r._id === id ? { ...r, status: res.data.reservation.status } : r))
+      );
+    });
   };
 
   const deleteReservation = id => {
-    fetch(`http://localhost:5000/protected/admin/reservations/${id}`, {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${token}` },
-    }).then(() => setReservations(prev => prev.filter(r => r._id !== id)));
+    axios.delete(
+      `http://localhost:5000/protected/admin/reservations/${id}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    ).then(() => setReservations(prev => prev.filter(r => r._id !== id)));
   };
 
   const filteredReservations = reservations
     .filter(res => {
+      const resDate = new Date(res.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
       const matchesDate = filterDate
-        ? new Date(res.date).toISOString().slice(0, 10) === filterDate
-        : true;
+        ? res.date.slice(0, 10) === filterDate
+        : resDate >= today;
+
       const matchesStatus = filterStatus ? res.status === filterStatus : true;
+
       return matchesDate && matchesStatus;
     })
     .sort((a, b) => new Date(a.date) - new Date(b.date));
