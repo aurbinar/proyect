@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/authContext';
 import logo from '../assets/logo.png';
 import arrow from '../assets/arrow.png';
+import { FaInstagram, FaFacebookF } from 'react-icons/fa';
 import './Layout.css';
 
 export default function Layout() {
@@ -84,10 +85,33 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer>
-        <p>
-          &copy; 2025 Nuestro Restaurante. Todos los derechos reservados. 2025 Nuestro Restaurante. Todos los derechos reservados. 2025 Nuestro Restaurante. Todos los derechos reservados.Todos los derechos reservados. 2025 Nuestro Restaurante.Todos los derechos reservados. 2025 Nuestro Restaurante.
-        </p>
+      <footer className="restaurant-footer">
+        <div className="footer-top">
+          <div className="footer-logo-section">
+            <img src={logo} alt="Restaurante Carbónico" className="footer-logo" />
+            <p className="footer-slogan">Pasión por la parrilla, sabor que reconforta</p>
+          </div>
+
+          <div className="footer-info">
+            <h4>Contacto</h4>
+            <p>📍 Calle Minerva, 81, 28032, Madrid</p>
+            <p>📞 +34 678 772 422</p>
+            <p>🕒 Lun-Dom: 13:00 - 00:00</p>
+          </div>
+
+          <div className="footer-social">
+            <h4>Síguenos</h4>
+            <div className="social-icons">
+              <a href="https://www.instagram.com/la_birra_es_bella_/" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+              <a href="https://www.facebook.com/birrabella/" target="_blank" rel="noopener noreferrer"><FaFacebookF /></a>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <p>&copy; {new Date().getFullYear()} Restaurante Carbónico. Todos los derechos reservados.</p>
+        </div>
+
       </footer>
     </div>
   );

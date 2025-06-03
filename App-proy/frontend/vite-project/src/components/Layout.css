@@ -13,6 +13,7 @@ body {
 
 .layout-container {
   display: flex;
+  width: 100%;
   flex-direction: column;
   background-color: #ffffff;
   min-height: 100vh;
@@ -22,7 +23,6 @@ body {
 
 .home-header {
   position: fixed;
-  top: 0;
   width: 100%;
   z-index: 1000;
 }
@@ -125,6 +125,7 @@ body {
 
 /* Main content */
 .main-default {
+  width: 100%;
   flex: 1;
   padding: 4rem 2rem 4rem;
   background: none;
@@ -195,13 +196,76 @@ body {
 }
 
 /* Footer */
-footer {
-  background-color: #343a40;
-  color: white;
-  padding: 20px;
+.restaurant-footer {
+  background-color: #2e2f35;
+  color: #f2f2f2;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.footer-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 25rem;
+}
+
+.footer-logo-section {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-logo {
+  height: 60px;
+  margin-bottom: 0.5rem;
+}
+
+.footer-slogan {
+  font-style: italic;
+  color: #d8c3a5;
+}
+
+.footer-info, .footer-social {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-info h4, .footer-social h4 {
+  margin-bottom: 0.5rem;
+  color: #f8f8f8;
+  font-size: 1.2rem;
+}
+
+.footer-info p {
+  margin: 0.2rem 0;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.social-icons a {
+  color: #f2f2f2;
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #d8c3a5;
+}
+
+.footer-bottom {
+  border-top: 1px solid #444;
   text-align: center;
-  width: 100%;
-  margin-top: auto;
+  padding-top: 1rem;
+  font-size: 0.9rem;
+  color: #ccc;
 }
 
 /* Dropdown de usuario */

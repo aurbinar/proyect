@@ -49,10 +49,9 @@ body {
   bottom: -20px;
   background-image: url('../../assets/bottom-border.png');
 }
-
 .menu-container h2 {
-  font-size: 1.6rem;
-  color: #2d2d2d;
+  font-size: 1.8rem;
+  color: #040404;
   margin-bottom: 25px;
   font-weight: 700;
   border-bottom: 2px solid #8fbc8f;
