@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './admin.css';
+import './Admin.css';
 import axios from 'axios';
 import { Pencil, Trash2, Check, X } from 'lucide-react';
 

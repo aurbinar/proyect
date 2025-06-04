@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import './admin.css';
+import './Admin.css';
 
 const CreateMenu = () => {
   const [menu, setMenu] = useState({
