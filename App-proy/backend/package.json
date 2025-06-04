@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --runInBand",
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "dev": "npx nodemon server.js"
   },
   "keywords": [],
