@@ -8,8 +8,11 @@ const AdminUsers = () => {
 
   const token = localStorage.getItem('token');
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
+
   useEffect(() => {
-    axios.get('http://localhost:5000/protected/admin/users', {
+    axios.get(`${API_URL}/protected/admin/users`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => setUsers(res.data));
@@ -17,7 +20,7 @@ const AdminUsers = () => {
 
   const toggleBlock = (id, currentStatus) => {
     axios.put(
-      `http://localhost:5000/protected/admin/blockUser/${id}`,
+      `${API_URL}/protected/admin/blockUser/${id}`,
       { block: !currentStatus },
       {
         headers: {
@@ -31,7 +34,7 @@ const AdminUsers = () => {
   };
 
   const deleteUser = id => {
-    axios.delete(`http://localhost:5000/protected/admin/deleteUser/${id}`, {
+    axios.delete(`${API_URL}/protected/admin/deleteUser/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     }).then(() => setUsers(prev => prev.filter(u => u._id !== id)));
   };

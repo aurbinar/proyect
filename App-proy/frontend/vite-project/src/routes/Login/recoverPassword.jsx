@@ -6,10 +6,12 @@ const RecoverPassword = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleRecover = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/auth/recover', { email });
+      const response = await axios.post(`${API_URL}/auth/recover`, { email });
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response.data.message || 'Error al enviar el correo de recuperación.');

@@ -6,10 +6,12 @@ const Menu = () => {
   const [menu, setMenu] = useState(null);
   const [error, setError] = useState('');
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/getMenu');
+        const response = await axios.get(`${API_URL}/api/getMenu`);
         setMenu(response.data);
       } catch (error) {
         setError('Error al obtener el menú del día');

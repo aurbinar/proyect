@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { getDishes } from '../api';
 import './DishList.css';
 
 function DishList() {
@@ -7,15 +6,16 @@ function DishList() {
   const [expandedId, setExpandedId] = useState(null);
   const [modalImage, setModalImage] = useState(null);
 
-  useEffect(() => {
-    fetchDishes();
-  }, []);
+  const API_URL = import.meta.env.VITE_API_URL;
 
-  
-  const fetchDishes = async () => {
-    const data = await getDishes();
-    setDishes(data);
-  };
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/api/getDishes`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(res => setDishes(res.data))
+      .catch(err => console.error('Error al cargar los platos', err));
+  }, [token]);
 
   const toggleExpand = (id) => {
     setExpandedId(prevId => (prevId === id ? null : id));

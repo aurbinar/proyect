@@ -15,6 +15,9 @@ const AddDish = () => {
   const [message, setMessage] = useState('');
   const token = localStorage.getItem('token');
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
+
   const categories = [
     'Entrante', 'Arroces y Fideua', 'Carnes', 'Hamburgesas',
     'Tostas', 'Ensaladas', 'Pescados y Mariscos', 'Postres'
@@ -43,7 +46,7 @@ const AddDish = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/postDishes', form, {
+      const response = await axios.post(`${API_URL}/api/postDishes`, form, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

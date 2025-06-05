@@ -14,6 +14,8 @@ const CreateMenu = () => {
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const token = localStorage.getItem('token');
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleChange = (section, index, value) => {
     const updated = [...menu[section]];
     updated[index] = value;
@@ -24,7 +26,7 @@ const CreateMenu = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        'http://localhost:5000/api/createMenu',
+        `${API_URL}/api/createMenu`,
         { ...menu, date: date },
         {
           headers: {

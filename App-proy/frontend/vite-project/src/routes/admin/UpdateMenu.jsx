@@ -9,9 +9,11 @@ const UpdateMenu = () => {
 
   const token = localStorage.getItem('token');
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     if (!date) return;
-    axios.get(`http://localhost:5000/api/getDayMenu`, {
+    axios.get(`${API_URL}/api/getDayMenu`, {
       params: { date },
       headers: {
         Authorization: `Bearer ${token}`,
@@ -39,7 +41,7 @@ const UpdateMenu = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    axios.put('http://localhost:5000/api/updateMenu', { ...menu, date }, {
+    axios.put(`${API_URL}/api/updateMenu`, { ...menu, date }, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,

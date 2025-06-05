@@ -10,6 +10,8 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleReset = async (e) => {
     e.preventDefault();
 
@@ -19,7 +21,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:5000/auth/reset/${token}`, { password });
+      const response = await axios.post(`${API_URL}/auth/reset/${token}`, { password });
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response?.data?.message || 'Error al restablecer la contraseña.');

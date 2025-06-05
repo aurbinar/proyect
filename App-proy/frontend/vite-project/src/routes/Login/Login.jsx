@@ -12,17 +12,17 @@ const Login = () => {
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
-
   const { login, logout } = useAuth();
+
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/auth/login', { email, password });
+      const response = await axios.post(`${API_URL}/auth/login`, { email, password });
       login(response.data.token); 
       setMessage(`Bienvenido ${response.data.name}`);
       navigate('/');
-      // setTimeout(() => navigate('/'), 2000);
     } catch (error) {
       setMessage(error.response.data.message || 'Error al iniciar sesión');
     }

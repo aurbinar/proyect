@@ -13,6 +13,8 @@ const EditDishes = () => {
 
   const token = localStorage.getItem('token');
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const categories = [
     'Entrante', 'Arroces y Fideua', 'Carnes', 'Hamburgesas',
     'Tostas', 'Ensaladas', 'Pescados y Mariscos', 'Postres'
@@ -20,7 +22,7 @@ const EditDishes = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/api/getDishes', {
+      .get(`${API_URL}/api/getDishes`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(res => setDishes(res.data))
@@ -52,7 +54,7 @@ const EditDishes = () => {
 
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/editDish/${id}`,
+        `${API_URL}/api/editDish/${id}`,
         form,
         {
           headers: {
@@ -87,7 +89,7 @@ const EditDishes = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/deleteDish/${id}`, {
+      await axios.delete(`${API_URL}/api/deleteDish/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setDishes(prev => prev.filter(d => d._id !== id));

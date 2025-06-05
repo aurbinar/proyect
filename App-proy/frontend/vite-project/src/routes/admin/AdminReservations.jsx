@@ -9,8 +9,11 @@ const AdminReservations = () => {
 
   const token = localStorage.getItem('token');
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
+
   useEffect(() => {
-    axios.get('http://localhost:5000/protected/admin/reservations', {
+    axios.get(`${API_URL}/protected/admin/reservations`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => setReservations(res.data));
@@ -18,7 +21,7 @@ const AdminReservations = () => {
 
   const updateStatus = (id, status) => {
     axios.put(
-      `http://localhost:5000/protected/admin/reservations/${id}`,
+      `${API_URL}/protected/admin/reservations/${id}`,
       { status },
       {
         headers: {
@@ -35,7 +38,7 @@ const AdminReservations = () => {
 
   const deleteReservation = id => {
     axios.delete(
-      `http://localhost:5000/protected/admin/reservations/${id}`,
+      `${API_URL}/protected/admin/reservations/${id}`,
       { headers: { Authorization: `Bearer ${token}` } }
     ).then(() => setReservations(prev => prev.filter(r => r._id !== id)));
   };

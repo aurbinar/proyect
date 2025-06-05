@@ -10,7 +10,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/protected/admin/dashboard', {
+      .get(`${API_URL}/protected/admin/dashboard`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(res => setStats(res.data))
@@ -19,7 +19,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/protected/admin/reservations', {
+      .get(`${API_URL}/protected/admin/reservations`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(res => {

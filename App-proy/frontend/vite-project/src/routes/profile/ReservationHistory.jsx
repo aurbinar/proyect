@@ -8,12 +8,14 @@ const ReservationHistory = () => {
   const token = localStorage.getItem('token');
   const isLoggedIn = !!token;
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     if (!isLoggedIn) return;
 
     const fetchReservations = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/reservations/history', {
+        const response = await axios.get(`${API_URL}/api/reservations/history`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setReservations(response.data);
