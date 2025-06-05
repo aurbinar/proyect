@@ -72,6 +72,13 @@ export default function Layout() {
                   <ul className="dropdown-menu">
                     <li><button className="dropdown-item" onClick={() => { setShowMenu(false); navigate('/profile/edit'); }}>Editar Perfil</button></li>
                     <li><button className="dropdown-item" onClick={() => { setShowMenu(false); navigate('/profile/reservationHistory'); }}>Historial de reservas</button></li>
+                    {user?.role === 'admin' && (
+                      <li>
+                        <button className="dropdown-item" onClick={() => { setShowMenu(false); navigate('/admin'); }}>
+                          Panel de Administración
+                        </button>
+                      </li>
+                    )}
                     <li><button className="dropdown-item" onClick={handleLogout}>Cerrar sesión</button></li>
                   </ul>
                 )}

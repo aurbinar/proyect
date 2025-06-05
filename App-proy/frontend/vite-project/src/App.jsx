@@ -23,8 +23,6 @@ import EditDishes from './routes/admin/EditDishes.jsx';
 import PostDish from './routes/admin/PostDish.jsx';
 
 
-
-
 function App() {
   return (
     <Router>
