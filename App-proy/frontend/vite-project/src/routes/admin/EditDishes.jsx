@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Admin.css';
 import axios from 'axios';
+import { useAuth } from '../../context/authContext';
 import { Pencil, Trash2, Check, X } from 'lucide-react';
 
 const EditDishes = () => {
@@ -11,7 +12,7 @@ const EditDishes = () => {
   const [confirmDishName, setConfirmDishName] = useState('');
   const [newImage, setNewImage] = useState(null);
 
-  const token = localStorage.getItem('token');
+  const { token } = useAuth();
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -22,12 +23,10 @@ const EditDishes = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_URL}/api/getDishes`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`${API_URL}/api/getDishes`)
       .then(res => setDishes(res.data))
       .catch(err => console.error('Error al cargar los platos', err));
-  }, [token]);
+  }, []);
 
   const handleEditClick = dish => {
     setEditingDishId(dish._id);

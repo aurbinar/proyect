@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../../context/authContext';
 import './Admin.css';
 
 const AdminUsers = () => {
 
   const [users, setUsers] = useState([]);
-
-  const token = localStorage.getItem('token');
+  const { token } = useAuth();
 
   const API_URL = import.meta.env.VITE_API_URL;
-
 
   useEffect(() => {
     axios.get(`${API_URL}/protected/admin/users`, {

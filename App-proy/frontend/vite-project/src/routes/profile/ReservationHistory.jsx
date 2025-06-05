@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../../context/authContext';
 import './ReservationHistory.css'; 
 
 const ReservationHistory = () => {
   const [reservations, setReservations] = useState([]);
   const [message, setMessage] = useState('');
-  const token = localStorage.getItem('token');
-  const isLoggedIn = !!token;
+  const { token, isLoggedIn } = useAuth();
 
   const API_URL = import.meta.env.VITE_API_URL;
 

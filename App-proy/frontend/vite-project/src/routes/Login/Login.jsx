@@ -9,10 +9,9 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
-  const { login, logout } = useAuth();
+  const { login, logout, isLoggedIn, user } = useAuth();
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -20,11 +19,13 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(`${API_URL}/auth/login`, { email, password });
-      login(response.data.token); 
-      setMessage(`Bienvenido ${response.data.name}`);
-      navigate('/');
+
+      login(response.data.token);
+
+      setMessage(`Bienvenido ${response.data.name || response.data.user?.name || ''}`);
+      setTimeout(() => navigate('/'), 1500);
     } catch (error) {
-      setMessage(error.response.data.message || 'Error al iniciar sesión');
+      setMessage(error.response?.data?.message || 'Error al iniciar sesión');
     }
   };
 
@@ -35,9 +36,9 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      {token ? (
+      {isLoggedIn ? (
         <div>
-          <h2>Bienvenido</h2>
+          <h2>Bienvenido {user?.name}</h2>
           <button onClick={handleLogout}>Cerrar sesión</button>
         </div>
       ) : (

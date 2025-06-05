@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth  } from '../../context/authContext';
+import { useAuth } from '../../context/authContext';
 import axios from 'axios';
 import './reservations.css';
 
@@ -12,13 +12,13 @@ const Reservation = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [reservations, setReservations] = useState([]);
-  const { user } = useAuth();
+  const { token, isLoggedIn } = useAuth();
 
-  const token = localStorage.getItem('token');
-  const isLoggedIn = (token);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    if (!isLoggedIn) return;
+    if(!isLoggedIn) return;
+
     const fetchReservations = async () => {
       try {
         const response = await axios.get(`${API_URL}/api/reservations/history`, {
@@ -43,9 +43,8 @@ const Reservation = () => {
         data.email = email;
         data.phone = phone;
       }
-      console.log(data)
       const response = await axios.post(
-        'http://localhost:5000/api/reservations/create',
+        `${API_URL}/api/reservations/create`,
         data,
         isLoggedIn
           ? { headers: { Authorization: `Bearer ${token}` } }
@@ -63,7 +62,7 @@ const Reservation = () => {
 
   const handleCancel = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/reservations/cancel/${id}`, {
+      await axios.delete(`${API_URL}/api/reservations/cancel/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage('Reserva cancelada con éxito.');

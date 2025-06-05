@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../../context/authContext';
 import './Admin.css';
 
 const AdminReservations = () => {
@@ -7,7 +8,7 @@ const AdminReservations = () => {
   const [filterDate, setFilterDate] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
 
-  const token = localStorage.getItem('token');
+  const { token } = useAuth();
 
   const API_URL = import.meta.env.VITE_API_URL;
 

@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../../context/authContext';
 import './Admin.css';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
   const [todayReservations, setTodayReservations] = useState([]);
 
-  const token = localStorage.getItem('token');
+  const { token } = useAuth();
+
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     axios

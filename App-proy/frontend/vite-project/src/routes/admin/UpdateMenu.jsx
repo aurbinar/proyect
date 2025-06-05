@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from '../../context/authContext';
 import "./Admin.css";
 
 const UpdateMenu = () => {
@@ -7,7 +8,7 @@ const UpdateMenu = () => {
   const [date, setDate] = useState('');
   const [message, setMessage] = useState('');
 
-  const token = localStorage.getItem('token');
+  const { token } = useAuth();
 
   const API_URL = import.meta.env.VITE_API_URL;
 

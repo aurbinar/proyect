@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './DishList.css';
 
 function DishList() {
@@ -10,12 +11,10 @@ function DishList() {
 
   useEffect(() => {
     axios
-      .get(`${API_URL}/api/getDishes`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`${API_URL}/api/getDishes`)
       .then(res => setDishes(res.data))
       .catch(err => console.error('Error al cargar los platos', err));
-  }, [token]);
+  }, []);
 
   const toggleExpand = (id) => {
     setExpandedId(prevId => (prevId === id ? null : id));

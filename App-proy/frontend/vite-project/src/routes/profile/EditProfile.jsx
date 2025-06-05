@@ -6,7 +6,7 @@ import { useNavigate, Link } from 'react-router-dom';
 const EditProfile = () => {
   const { user, editProfile } = useAuth();
   const [name, setName] = useState(user?.name || '');
-  const [email, setEmail] = useState(user?.email);
+  const [email] = useState(user?.email);
   const [phone, setPhone] = useState(user?.phone || '');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
