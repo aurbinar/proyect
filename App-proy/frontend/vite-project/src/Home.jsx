@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../src/assets/logo.png';
 import './Home.css';
 import backImage from '../src/assets/back.png';
@@ -14,19 +15,19 @@ const Home = () => {
         <img src={logo} alt="Logo Restaurante Carbónico" className="hero-logo" />
         <h1 className="hero-title">Bienvenidos a Restaurante Carbónico</h1>
         <p className="hero-subtitle">Comida casera, carnes a la parrilla y una exquisita variedad de arroces</p>
-        <a href="/reservations" className="hero-button">Reservar mesa</a>
+          <Link  to="/reservations" className="hero-button">Reservar Mesa</Link>
       </section>
 
       <section className="features">
         <div className="feature-card">
           <h3>Nuestra Carta</h3>
           <p>Disfruta de carnes, arroces y platos caseros para todos los gustos.</p>
-          <a href="/carta">Ver Carta</a>
+          <Link  to="/carta" className="home-carta">Ver Carta</Link>
         </div>
         <div className="feature-card">
           <h3>Menú del Día</h3>
           <p>Platos caseros perfectos para el día a día.</p>
-          <a href="/menu">Ver Menú</a>
+          <Link  to="/menu" className="home-menu">Ver Menú</Link>
         </div>
       </section>
       
